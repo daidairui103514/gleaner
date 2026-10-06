@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>中英混排测试</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 48px 24px;
+        background: #f7f5ef;
+        color: #26241f;
+        font: 17px/1.75 -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      }
+      .wrap {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 28px;
+        margin: 0 0 24px;
+      }
+      p {
+        margin: 0 0 20px;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #e6e0d0;
+        color: #6b6459;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>中英混排页面测试</h1>
+
+      <p><span class="tag">纯中文，应当跳过</span></p>
+      <p>这是一段完全由中文写成的正文。它本来就是我们想看到的语言，所以翻译扩展不应该再浪费一次请求去翻译它，也不应该在下面多出一行重复的中文。</p>
+
+      <p><span class="tag">纯英文，应当翻译</span></p>
+      <p>
+        This paragraph is written entirely in English. It should be picked up by the extension and rendered
+        with a Chinese translation directly underneath it.
+      </p>
+
+      <p><span class="tag">中文为主，含少量英文，应当跳过</span></p>
+      <p>这段话主要是中文，中间夹了一个英文词 prompt，其余都是中文表述，整体不应该被再次翻译。</p>
+
+      <p><span class="tag">英文为主，含中文引号，应当翻译</span></p>
+      <p>
+        The paragraph below the original keeps the reading context intact, which is exactly the point of a
+        bilingual layout rather than a replacement layout.
+      </p>
+
+      <p><span class="tag">纯中文标题下的列表</span></p>
+      <ul>
+        <li>第一项是中文，应该保持原样</li>
+        <li>第二项同样是中文，也不需要翻译</li>
+        <li>第三项 Third item is in English, and should be translated</li>
+      </ul>
+
+      <p><span class="tag">纯中文，应当跳过</span></p>
+      <p>最后一段同样是中文，用来确认整页里所有中文段落都没有被重复翻译。</p>
+    </div>
+  </body>
+</html>

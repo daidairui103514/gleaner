@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>PDF 双语翻译</title>
+    <link rel="stylesheet" href="../common/ui.css" />
+    <link rel="stylesheet" href="viewer.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="left">
+        <span class="logo">译</span>
+        <span class="doc" id="doc-title">正在打开 PDF…</span>
+      </div>
+      <div class="center">
+        <div class="pager">
+          <button class="icon" id="prev" title="上一页">‹</button>
+          <input id="page-input" type="number" min="1" value="1" aria-label="页码" />
+          <span class="total" id="page-total">/ 1</span>
+          <button class="icon" id="next" title="下一页">›</button>
+        </div>
+        <select id="zoom" title="缩放">
+          <option value="0.5">50%</option>
+          <option value="0.7">70%</option>
+          <option value="0.85">85%</option>
+          <option value="1" selected>100%</option>
+          <option value="1.25">125%</option>
+          <option value="1.5">150%</option>
+          <option value="2">200%</option>
+          <option value="3">300%</option>
+          <option value="4">400%</option>
+        </select>
+      </div>
+      <div class="right">
+        <button class="ghost" id="mode">双语对照</button>
+        <button class="primary" id="translate">翻译全文</button>
+      </div>
+    </header>
+
+    <div class="progress" id="progress"><i></i></div>
+    <div class="status" id="status">PDF 已加载，点击「翻译全文」开始双语对照。</div>
+
+    <main id="pages"></main>
+
+    <script type="module" src="viewer.js"></script>
+  </body>
+</html>

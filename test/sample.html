@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Quiet Shift in How Browsers Handle Translation</title>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+      body {
+        margin: 0;
+        background: #f7f5ef;
+        color: #26241f;
+        font: 17px/1.75 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 56px 24px 120px;
+      }
+      .kicker {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #9a8b6a;
+        margin-bottom: 14px;
+      }
+      h1 {
+        font-size: 34px;
+        line-height: 1.25;
+        letter-spacing: -0.015em;
+        margin: 0 0 14px;
+      }
+      h2 {
+        font-size: 21px;
+        margin: 40px 0 12px;
+      }
+      .byline {
+        font-size: 14px;
+        color: #7d7466;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #e2ddd0;
+        margin-bottom: 30px;
+      }
+      p {
+        margin: 0 0 20px;
+      }
+      ul,
+      ol {
+        padding-left: 22px;
+        margin: 0 0 20px;
+      }
+      li {
+        margin-bottom: 8px;
+      }
+      blockquote {
+        margin: 26px 0;
+        padding: 4px 0 4px 18px;
+        border-left: 3px solid #d8cfb8;
+        color: #5c5648;
+        font-style: italic;
+      }
+      pre {
+        background: #ece8dd;
+        border-radius: 10px;
+        padding: 14px 16px;
+        overflow: auto;
+        font-size: 13px;
+      }
+      code {
+        font-family: ui-monospace, Consolas, monospace;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 0 22px;
+        font-size: 15px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 9px 12px;
+        border-bottom: 1px solid #e2ddd0;
+      }
+      th {
+        font-weight: 600;
+        color: #4a453a;
+      }
+      figure {
+        margin: 26px 0;
+      }
+      figcaption {
+        font-size: 13.5px;
+        color: #7d7466;
+        margin-top: 8px;
+      }
+      .swatch {
+        height: 110px;
+        border-radius: 10px;
+        background: linear-gradient(120deg, #d9a441, #8a5a0d);
+      }
+      .note {
+        background: #fffdf7;
+        border: 1px solid #e6dfcc;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-size: 15px;
+        color: #5c5648;
+      }
+      footer {
+        margin-top: 48px;
+        padding-top: 20px;
+        border-top: 1px solid #e2ddd0;
+        font-size: 14px;
+        color: #7d7466;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <p class="kicker">Engineering · Reading</p>
+      <h1>The Quiet Shift in How Browsers Handle Translation</h1>
+      <p class="byline">By Ada Ren · October 2026 · 8 min read</p>
+
+      <p>
+        For most of the last decade, translating a web page meant handing the entire document to a remote
+        service and hoping the layout survived the round trip. The result was usually readable, occasionally
+        beautiful, and almost always lossy.
+      </p>
+
+      <p>
+        That assumption is quietly breaking. Modern browsers now ship with language models that run on the
+        device itself, which changes the economics of translation in ways that are easy to underestimate.
+      </p>
+
+      <h2>Why bilingual layouts win</h2>
+
+      <p>
+        Reading a foreign page is not the same as reading a translated one. When the translation replaces the
+        original, you lose the ability to check a term, a name, or a number against the source. A bilingual
+        layout keeps both in place, so the page stays trustworthy while still being fast to read.
+      </p>
+
+      <blockquote>
+        The paragraph is the right unit of translation. It carries enough context to disambiguate a word, and
+        it is small enough to render instantly.
+      </blockquote>
+
+      <p>Three practical consequences follow from that choice:</p>
+
+      <ul>
+        <li>You can skim the translation and drop into the original only when something looks off.</li>
+        <li>The page keeps its own typography, so your reading habits do not have to change.</li>
+        <li>Partial translation is still useful — you never wait for the whole document.</li>
+      </ul>
+
+      <h2>A short comparison</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Approach</th>
+            <th>Latency</th>
+            <th>Privacy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Full-page replacement</td>
+            <td>High</td>
+            <td>Document leaves the device</td>
+          </tr>
+          <tr>
+            <td>Paragraph-level cloud translation</td>
+            <td>Medium</td>
+            <td>Paragraphs leave the device</td>
+          </tr>
+          <tr>
+            <td>On-device models</td>
+            <td>Low</td>
+            <td>Nothing leaves the device</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>What the implementation actually looks like</h2>
+
+      <p>
+        The naive version of this feature walks the DOM, calls an API for every text node, and inserts the
+        results as siblings. It works on a blog post and falls apart on a real application, because real
+        applications mutate constantly.
+      </p>
+
+      <pre><code>const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+while (walker.nextNode()) {
+  // group text nodes by their nearest block container
+}</code></pre>
+
+      <p>
+        The interesting engineering is not the request. It is deciding what counts as a paragraph, what should
+        never be touched, and how to keep the page responsive while several hundred requests are in flight.
+      </p>
+
+      <figure>
+        <div class="swatch"></div>
+        <figcaption>Figure 1. Translation overlays should feel like part of the page, not like a plugin.</figcaption>
+      </figure>
+
+      <h2>Where it gets hard</h2>
+
+      <ol>
+        <li>Dynamic content: infinite feeds and chat interfaces insert new text continuously.</li>
+        <li>Layout: a translated heading needs the size and weight of the original heading.</li>
+        <li>Cost: caching decides whether the second visit is instant or expensive.</li>
+      </ol>
+
+      <p class="note">
+        A useful rule of thumb: if the translation is invisible as a feature, the implementation is probably
+        right. Users should notice the content, never the machinery.
+      </p>
+
+      <footer>
+        <p>Ada Ren writes about browsers, reading tools, and the small decisions that make software feel calm.</p>
+      </footer>
+    </div>
+  </body>
+</html>

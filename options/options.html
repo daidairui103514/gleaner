@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>拾穗译 · 设置</title>
+    <link rel="stylesheet" href="options.css" />
+    <link rel="stylesheet" href="../common/ui.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="nav">
+        <div class="brand">
+          <div class="mark">译</div>
+          <div class="name">
+            <strong>拾穗译</strong>
+            <span id="version">v0.2</span>
+          </div>
+        </div>
+
+        <nav id="nav">
+          <a href="#sec-engine" class="on">翻译与语言</a>
+          <a href="#sec-engines">翻译引擎</a>
+          <a href="#sec-style">译文样式</a>
+          <a href="#sec-subtitle">视频字幕</a>
+          <a href="#sec-sites">网站规则</a>
+          <a href="#sec-interaction">交互与快捷键</a>
+          <a href="#sec-terms">术语表</a>
+          <a href="#sec-media">文档与媒体</a>
+          <a href="#sec-data">缓存与数据</a>
+          <a href="#sec-about">关于</a>
+        </nav>
+
+        <div class="nav-foot">
+          <div class="accent-picker" id="accent-picker">
+            <button data-accent="amber" title="琥珀"></button>
+            <button data-accent="teal" title="青竹"></button>
+            <button data-accent="indigo" title="靛青"></button>
+            <button data-accent="rose" title="玫红"></button>
+            <button data-accent="slate" title="墨灰"></button>
+          </div>
+          <button id="theme-toggle">切换到亮色</button>
+          <span id="cache-stat">缓存读取中</span>
+          <button id="clear-cache">清除缓存</button>
+        </div>
+      </aside>
+
+      <main>
+        <div class="banner" id="pin-banner" hidden>
+          <div class="banner-txt">
+            <strong>把图标固定到工具栏</strong>
+            <p>
+              点浏览器右上角的拼图图标，找到「拾穗译」，点它右边的图钉。这样以后一眼就能看到扩展状态。
+              不过日常翻译不必打开它，页面右下角的小球就是完整入口。
+            </p>
+          </div>
+          <button class="banner-close" id="pin-close">知道了</button>
+        </div>
+
+        <div class="save-state" id="save-state">改动自动保存</div>
+
+        <!-- ---------------------------------------------------- 翻译与引擎 -->
+        <section id="sec-engine">
+          <h3>翻译与语言</h3>
+          <p class="sub">设置翻译成什么语言，以及同时发出多少请求。</p>
+
+          <div class="group">
+            <p class="glabel">语言</p>
+            <div class="row2">
+              <div class="field">
+                <label>目标语言</label>
+                <select id="targetLang"></select>
+              </div>
+              <div class="field">
+                <label>源语言</label>
+                <select id="sourceLang"></select>
+              </div>
+            </div>
+            <p class="tip">已经是目标语言的段落会自动跳过，中英混排的页面里中文段落不会被反复翻译。</p>
+          </div>
+
+          <div class="group">
+            <p class="glabel">性能</p>
+            <div class="line">
+              <div class="txt">并发请求数（个）<small>越高翻得越快，也越容易触发接口限流</small></div>
+              <div class="num-wrap">
+                <input type="range" id="concurrency" min="2" max="16" step="1" />
+                <input type="number" class="val" id="v-concurrency" />
+              </div>
+            </div>
+          </div>
+
+          <div class="group">
+            <div class="row-actions">
+              <button class="btn" id="test-engine">测试当前引擎</button>
+              <span class="tip inline" id="test-result"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 翻译引擎 -->
+        <section id="sec-engines" hidden>
+          <h3>翻译引擎</h3>
+          <p class="sub">带「免配置」标记的开箱可用。大模型可以存多套配置，随时切换。</p>
+
+          <div class="group">
+            <p class="glabel">选择引擎</p>
+            <div class="engine-list" id="engine-list"></div>
+            <div class="row-actions" style="margin-top: 12px">
+              <button class="btn" id="add-profile">添加一套大模型配置</button>
+            </div>
+          </div>
+
+          <div class="group" id="engine-detail"></div>
+
+          <div class="group">
+            <p class="glabel">译文风格</p>
+            <div class="row2">
+              <div class="field">
+                <label>风格</label>
+                <select id="promptLevel">
+                  <option value="1">极简，只译核心含义</option>
+                  <option value="2">自然，推荐</option>
+                  <option value="3">信达雅，保留语气</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>上下文</label>
+                <div class="switch-wrap"><input type="checkbox" id="useContext" /><span>把网页标题作为语境提示传给模型</span></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 译文样式 -->
+        <section id="sec-style" hidden>
+          <h3>译文样式</h3>
+          <p class="sub">左边模拟深色网页，右边模拟浅色网页，改完立刻能看出差别。</p>
+
+          <div class="previews">
+            <div class="preview dark">
+              <p class="p-src">Modern browsers ship with on-device translation models.</p>
+              <p class="p-dst">现代浏览器已经内置了端侧翻译模型。</p>
+            </div>
+            <div class="preview light">
+              <p class="p-src">Modern browsers ship with on-device translation models.</p>
+              <p class="p-dst">现代浏览器已经内置了端侧翻译模型。</p>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">配色</p>
+            <div class="field">
+              <label>方案</label>
+              <select id="colorMode">
+                <option value="amber">琥珀（默认）</option>
+                <option value="teal">青竹</option>
+                <option value="indigo">靛青</option>
+                <option value="rose">玫红</option>
+                <option value="slate">墨灰</option>
+                <option value="custom">自定义颜色</option>
+                <option value="inherit">跟随原文颜色</option>
+              </select>
+            </div>
+            <div class="row2" id="amber-colors" hidden>
+              <div class="field">
+                <label>深色网页下的译文色</label>
+                <input type="color" id="amberDark" />
+              </div>
+              <div class="field">
+                <label>浅色网页下的译文色</label>
+                <input type="color" id="amberLight" />
+              </div>
+            </div>
+            <div class="row2" id="custom-colors" hidden>
+              <div class="field">
+                <label>译文颜色</label>
+                <input type="color" id="customColor" />
+              </div>
+              <div class="field">
+                <label>分割线颜色</label>
+                <input type="color" id="borderColor" />
+              </div>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label>分割线</label>
+                <select id="borderStyle">
+                  <option value="line">细实线</option>
+                  <option value="dashed">虚线</option>
+                  <option value="none">不显示</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>译文字体</label>
+                <select id="fontFamily">
+                  <option value="inherit">跟随网页</option>
+                  <option value="serif">宋体 / 衬线</option>
+                  <option value="sans">黑体 / 无衬线</option>
+                  <option value="mono">等宽</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">尺寸与间距</p>
+            <div class="line">
+              <div class="txt">译文字号<small>0 表示跟随原文，标题段落会一起放大</small></div>
+              <div class="num-wrap"><input type="range" id="fontSize" min="0" max="30" step="1" /><input type="number" class="val" id="v-fontSize" /></div>
+            </div>
+            <div class="line">
+              <div class="txt">不透明度（%）</div>
+              <div class="num-wrap"><input type="range" id="opacity" min="40" max="100" step="5" /><input type="number" class="val" id="v-opacity" /></div>
+            </div>
+            <div class="line">
+              <div class="txt">行高（倍数）</div>
+              <div class="num-wrap"><input type="range" id="lineHeight" min="1.2" max="2.2" step="0.1" /><input type="number" class="val" id="v-lineHeight" /></div>
+            </div>
+            <div class="line">
+              <div class="txt">左缩进（像素）</div>
+              <div class="num-wrap"><input type="range" id="paddingLeft" min="0" max="28" step="2" /><input type="number" class="val" id="v-paddingLeft" /></div>
+            </div>
+            <div class="line">
+              <div class="txt">译文最大宽度<small>超过这个宽度就折行，1600 相当于不限制</small></div>
+              <div class="num-wrap"><input type="range" id="maxWidth" min="300" max="1600" step="20" /><input type="number" class="val" id="v-maxWidth" /></div>
+            </div>
+            <div class="line">
+              <div class="txt">段前间距（像素）</div>
+              <div class="num-wrap"><input type="range" id="marginTop" min="0" max="20" step="1" /><input type="number" class="val" id="v-marginTop" /></div>
+            </div>
+            <div class="line">
+              <div class="txt">段后间距（像素）</div>
+              <div class="num-wrap"><input type="range" id="marginBottom" min="0" max="32" step="2" /><input type="number" class="val" id="v-marginBottom" /></div>
+            </div>
+          </div>
+
+          <div class="row-actions">
+            <button class="btn" id="reset-style">恢复默认样式</button>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 视频字幕 -->
+        <section id="sec-subtitle" hidden>
+          <h3>视频字幕</h3>
+          <p class="sub">
+            YouTube、B 站这类能拿到字幕轨的站点会提前预翻译，轮到显示时直接取缓存，没有延迟；
+            其他站点自动退回实时方案。
+          </p>
+
+          <div class="group">
+            <div class="line">
+              <div class="txt">启用字幕翻译<small>关掉之后不再接管播放器字幕</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="subtitle-enabled" /><span>开启</span></div>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">显示</p>
+            <div class="field">
+              <label>显示方式</label>
+              <select id="subtitle-display">
+                <option value="bilingual">双语（原文 + 译文）</option>
+                <option value="translation">仅译文</option>
+                <option value="source">仅原文</option>
+              </select>
+            </div>
+            <div class="line">
+              <div class="txt">模糊译文<small>鼠标移到字幕上才看清，适合想顺便练听力</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="subtitle-blur" /><span>开启</span></div>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">外观</p>
+            <div class="field">
+              <label>字幕底色</label>
+              <select id="subtitle-background">
+                <option value="translucent">半透明（推荐）</option>
+                <option value="solid">实底</option>
+                <option value="none">透明，只留字</option>
+              </select>
+            </div>
+            <div class="line">
+              <div class="txt">译文字号（%）<small>100 表示和原字幕一样大</small></div>
+              <div class="num-wrap">
+                <input type="range" id="subtitle-fontSize" min="80" max="200" step="5" />
+                <input type="number" class="val" id="v-subtitle-fontSize" />
+              </div>
+            </div>
+            <div class="line">
+              <div class="txt">距视频底部（%）<small>越大字幕越靠上</small></div>
+              <div class="num-wrap">
+                <input type="range" id="subtitle-offset" min="2" max="25" step="1" />
+                <input type="number" class="val" id="v-subtitle-offset" />
+              </div>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">播放器</p>
+            <p class="tip">
+              播放器右下角有一个「译」按钮，点开可以就地调上面这些，不用回设置页。
+              改完这里之后刷新一下视频页面生效。
+            </p>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 网站规则 -->
+        <section id="sec-sites" hidden>
+          <h3>网站规则</h3>
+          <p class="sub">决定哪些网站打开就自动翻译，以及哪些网站永远不翻。</p>
+
+          <div class="group">
+            <p class="glabel">自动翻译</p>
+            <div class="field">
+              <label>总是翻译这些网站</label>
+              <textarea id="auto-always" rows="4" placeholder="一行一个，例如 medium.com 或 *.github.io"></textarea>
+            </div>
+            <div class="field">
+              <label>永不翻译这些网站</label>
+              <textarea id="auto-never" rows="4" placeholder="一行一个，例如 mail.google.com"></textarea>
+            </div>
+            <p class="tip">支持 <code>*.</code> 通配子域名。永不翻译的优先级高于总是翻译。</p>
+          </div>
+
+          <div class="group">
+            <p class="glabel">按页面语言自动翻译</p>
+            <div class="line">
+              <div class="txt">启用<small>页面语言命中时打开即翻</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="auto-byLang" /><span>开启</span></div>
+            </div>
+            <div class="chips" id="auto-langs"></div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">单独配置过的网站</p>
+            <div id="site-list" class="site-list"></div>
+            <p class="tip">在页面悬浮面板或弹窗里给某个网站存过独立设置后，会出现在这里。</p>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 交互 -->
+        <section id="sec-interaction" hidden>
+          <h3>交互与快捷键</h3>
+          <p class="sub">页面右下角的小球是完整入口，日常操作不必再打开工具栏图标。</p>
+
+          <div class="group">
+            <p class="glabel">快捷键</p>
+            <div class="keys">
+              <div class="key-row"><span>翻译 / 还原当前页</span><kbd>Alt</kbd><b>+</b><kbd>T</kbd></div>
+              <div class="key-row"><span>循环切换显示方式</span><kbd>Alt</kbd><b>+</b><kbd>Shift</kbd><b>+</b><kbd>T</kbd></div>
+              <div class="key-row"><span>悬停翻译某一段</span><kbd>按住 Ctrl</kbd><b>+</b><kbd>鼠标停留</kbd></div>
+              <div class="key-row"><span>输入框翻译</span><kbd>连按 3 次空格</kbd></div>
+            </div>
+            <p class="tip">想换成别的按键，去浏览器的扩展快捷键页面改（edge://extensions/shortcuts）。</p>
+          </div>
+
+          <div class="group">
+            <p class="glabel">页面悬浮入口</p>
+            <div class="line">
+              <div class="txt">显示<small>右下角的圆形小球</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="fab-enabled" /><span>显示</span></div>
+            </div>
+            <div class="line">
+              <div class="txt">不透明度（%）</div>
+              <div class="num-wrap"><input type="range" id="fab-opacity" min="30" max="100" step="5" /><input type="number" class="val" id="v-fabOpacity" /></div>
+            </div>
+            <div class="line">
+              <div class="txt">距底部距离（像素）</div>
+              <div class="num-wrap"><input type="range" id="fab-bottom" min="16" max="240" step="4" /><input type="number" class="val" id="v-fabBottom" /></div>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">划词翻译</p>
+            <div class="field">
+              <select id="select-mode">
+                <option value="icon">选中后出现浮标，点一下才出译文</option>
+                <option value="instant">选中立刻出译文</option>
+                <option value="off">关闭划词翻译</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">悬停翻译</p>
+            <div class="line">
+              <div class="txt">启用<small>按住按键并把鼠标停在段落上</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="hover-enabled" /><span>开启</span></div>
+            </div>
+            <div class="field">
+              <label>触发按键</label>
+              <select id="hover-key">
+                <option value="Control">Ctrl</option>
+                <option value="Alt">Alt</option>
+                <option value="Shift">Shift</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">输入框翻译</p>
+            <div class="line">
+              <div class="txt">启用<small>在任意输入框里连按空格触发</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="input-enabled" /><span>开启</span></div>
+            </div>
+            <div class="field">
+              <label>需要连按几次空格</label>
+              <input type="number" id="input-trigger" min="2" max="5" step="1" />
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 术语表 -->
+        <section id="sec-terms" hidden>
+          <h3>术语表</h3>
+          <p class="sub">固定人名、产品名和专业词的译法。翻译完成后按这里的对照强制替换。</p>
+
+          <div class="group">
+            <textarea id="terms" rows="10" placeholder="每行一条，用 =&gt; 分隔，例如：&#10;Immersive Translate =&gt; 沉浸式翻译&#10;prompt =&gt; 提示词"></textarea>
+            <p class="tip">用大模型引擎时，术语表还会作为提示词一起下发，效果比单纯替换更好。</p>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 文档与媒体 -->
+        <section id="sec-media" hidden>
+          <h3>文档与媒体</h3>
+          <p class="sub">除了网页，还能翻这些内容。</p>
+
+          <div class="group">
+            <div class="line">
+              <div class="txt">PDF 双语翻译<small>打开 PDF 时自动接管，每页下方给双语对照</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="pdf-enabled" /><span>开启</span></div>
+            </div>
+            <div class="line">
+              <div class="txt">图片文字翻译<small>右键图片即可识别并翻译，全程在本机运行</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="ocr-enabled" /><span>开启</span></div>
+            </div>
+            <div class="line">
+              <div class="txt">视频双语字幕<small>在播放器字幕层上方叠加译文</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="subtitle-enabled" /><span>开启</span></div>
+            </div>
+            <p class="tip">PDF 需要在扩展详情页打开「允许访问文件 URL」才能翻本地文件。</p>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 缓存与数据 -->
+        <section id="sec-data" hidden>
+          <h3>缓存与数据</h3>
+          <p class="sub">缓存能让同一个页面第二次打开时几乎不花时间。</p>
+
+          <div class="group">
+            <div class="line">
+              <div class="txt">启用翻译缓存<small>相同内容不重复请求接口</small></div>
+              <div class="switch-wrap"><input type="checkbox" id="cache-enabled" /><span>开启</span></div>
+            </div>
+            <div class="line">
+              <div class="txt">保留天数（天）</div>
+              <div class="num-wrap"><input type="range" id="cache-days" min="1" max="180" step="1" /><input type="number" class="val" id="v-cacheDays" /></div>
+            </div>
+            <div class="row-actions">
+              <button class="btn" id="clear-cache-2">清除全部缓存</button>
+            </div>
+          </div>
+
+          <div class="group">
+            <p class="glabel">备份</p>
+            <div class="row-actions">
+              <button class="btn" id="export-settings">导出设置</button>
+              <button class="btn" id="import-settings">导入设置</button>
+              <button class="btn danger" id="reset-all">恢复全部默认</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---------------------------------------------------- 关于 -->
+        <section id="sec-about" hidden>
+          <h3>关于</h3>
+          <p class="sub">拾穗译 <span id="version-2">v0.2</span>，本地运行，不上传任何数据。</p>
+
+          <div class="group">
+            <p class="glabel">把图标固定到工具栏</p>
+            <p class="tip">
+              点浏览器右上角的拼图图标，在列表里找到「拾穗译」，点它右侧的图钉。固定之后图标会常驻工具栏，
+              一眼能看到当前页是否已翻译。不固定也没关系，页面右下角的小球功能完全一样。
+            </p>
+          </div>
+
+          <div class="group">
+            <p class="glabel">引擎说明</p>
+            <ul class="plain">
+              <li><b>必应翻译</b>：免注册免密钥，国内可直连，默认选项。</li>
+              <li><b>微软官方 API</b>：需要 Azure Key，最稳定，免费层每月 200 万字符。</li>
+              <li><b>谷歌翻译</b>：免密钥，国内需要浏览器走代理。</li>
+              <li><b>大模型</b>：质量最高，支持 DeepSeek、通义、Kimi、硅基流动、本地 Ollama 等。</li>
+              <li><b>MyMemory</b>：备用免费通道，质量一般。</li>
+              <li><b>浏览器内置</b>：完全离线，需要较新版本且受地区限制。</li>
+            </ul>
+          </div>
+
+          <div class="group">
+            <p class="glabel">隐私</p>
+            <p class="tip">
+              翻译请求只发往你在上面选择的引擎。扩展本身不收集数据，没有统计上报。API Key 存在浏览器本地。
+              图片识别全程在离屏文档里运行，图片不会离开你的设备。
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <a
+      class="github-fab"
+      href="https://github.com/daidairui103514/amber-translate"
+      target="_blank"
+      rel="noopener"
+      title="在 GitHub 上查看源码"
+      aria-label="在 GitHub 上查看源码"
+    >
+      <svg viewBox="0 0 16 16" width="21" height="21" fill="currentColor" aria-hidden="true">
+        <path
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+        />
+      </svg>
+    </a>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

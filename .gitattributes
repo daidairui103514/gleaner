@@ -1,0 +1,13 @@
+# 统一用 LF 提交，避免 Windows 自动转成 CRLF 导致跨平台 diff 噪声
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.wasm binary
+*.gz binary
+*.traineddata binary
+*.traineddata.gz binary

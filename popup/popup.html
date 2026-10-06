@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>拾穗译</title>
+    <link rel="stylesheet" href="popup.css" />
+    <link rel="stylesheet" href="../common/ui.css" />
+  </head>
+  <body>
+    <div class="app" id="main-view">
+      <header class="head">
+        <div class="title">
+          <strong>拾穗译</strong>
+          <span class="site" id="site">—</span>
+        </div>
+        <span class="state" id="state">未翻译</span>
+      </header>
+
+      <button class="cta" id="toggle">翻译此页</button>
+
+      <section class="block">
+        <p class="label">显示方式</p>
+        <div class="seg" id="modes">
+          <button data-mode="bilingual">双语</button>
+          <button data-mode="translation">仅译文</button>
+          <button data-mode="source">仅原文</button>
+        </div>
+      </section>
+
+      <section class="block">
+        <p class="label">译文字号</p>
+        <div class="range">
+          <input type="range" id="font" min="0" max="30" step="1" value="0" />
+          <span class="num" id="font-num">跟随</span>
+        </div>
+      </section>
+
+      <section class="block">
+        <p class="label">目标语言</p>
+        <button class="pick" id="open-langs">
+          <span id="lang-name">中文（简体）</span>
+          <small>切换 ›</small>
+        </button>
+      </section>
+
+      <section class="block">
+        <p class="label">翻译引擎</p>
+        <button class="pick" id="open-engines">
+          <span id="engine-name">必应翻译</span>
+          <small>切换 ›</small>
+        </button>
+      </section>
+
+      <section class="block">
+        <p class="label">界面配色</p>
+        <div class="accents" id="accents">
+          <button data-accent="amber" title="琥珀"></button>
+          <button data-accent="teal" title="青竹"></button>
+          <button data-accent="indigo" title="靛青"></button>
+          <button data-accent="rose" title="玫红"></button>
+          <button data-accent="slate" title="墨灰"></button>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <button id="site-config">本页设置</button>
+        <button id="options">全部设置</button>
+      </footer>
+
+      <p class="tip" id="tip"></p>
+    </div>
+
+    <div class="app" id="engine-view" hidden>
+      <div class="sub-head">
+        <button class="back" id="back">‹</button>
+        <span>选择引擎</span>
+      </div>
+      <div class="list" id="engine-list"></div>
+    </div>
+
+    <div class="app" id="site-view" hidden>
+      <div class="sub-head">
+        <button class="back" id="site-back">‹</button>
+        <span>本页设置</span>
+      </div>
+      <p class="site-domain" id="site-domain">—</p>
+      <div class="site-actions">
+        <button class="site-btn" id="site-save">
+          <strong>记住这个网站的设置</strong>
+          <small>现在的引擎、语言、字号会记在名下，下次打开自动套用</small>
+        </button>
+        <button class="site-btn" id="site-delete">
+          <strong>忘掉这个网站的设置</strong>
+          <small>改回跟随全局设置</small>
+        </button>
+      </div>
+      <p class="tip on" id="site-tip"></p>
+    </div>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

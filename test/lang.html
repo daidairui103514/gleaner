@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>语言识别测试</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 44px 24px;
+        background: #f7f5ef;
+        color: #26241f;
+        font: 17px/1.75 -apple-system, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 26px;
+        margin: 0 0 26px;
+      }
+      section {
+        margin-bottom: 26px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid #e3ddcd;
+      }
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #e6e0d0;
+        color: #6b6459;
+        margin-bottom: 8px;
+      }
+      p {
+        margin: 0 0 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>语言识别测试</h1>
+
+      <section>
+        <span class="tag">zh · 中文</span>
+        <p>这是一段完全由中文写成的段落，用来确认中文在目标语言为中文时会被跳过。</p>
+      </section>
+
+      <section>
+        <span class="tag">en · English</span>
+        <p>
+          This paragraph is written entirely in English. It should be translated when the target language is
+          Chinese, and skipped when the target language is English.
+        </p>
+      </section>
+
+      <section>
+        <span class="tag">fr · Français</span>
+        <p>
+          La traduction automatique progresse rapidement, mais le contexte reste la clé d'une lecture fidèle
+          et agréable pour tous les lecteurs.
+        </p>
+      </section>
+
+      <section>
+        <span class="tag">de · Deutsch</span>
+        <p>
+          Übersetzungen sollten den ursprünglichen Text nicht ersetzen, sondern ihn ergänzen und dabei die
+          Struktur der Seite unverändert lassen.
+        </p>
+      </section>
+
+      <section>
+        <span class="tag">ja · 日本語</span>
+        <p>この段落は日本語で書かれています。目標言語が日本語の場合、翻訳せずにそのまま表示されます。</p>
+      </section>
+
+      <section>
+        <span class="tag">ru · Русский</span>
+        <p>Этот абзац написан на русском языке и должен быть переведён, если целевой язык отличается.</p>
+      </section>
+    </div>
+  </body>
+</html>

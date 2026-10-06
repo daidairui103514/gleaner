@@ -1,0 +1,100 @@
+{
+  "manifest_version": 3,
+  "name": "拾穗译 · Gleaner",
+  "version": "0.9.7",
+  "description": "双语对照网页翻译：整页对照、划词、悬停、输入框、PDF、图片 OCR、视频字幕。",
+  "minimum_chrome_version": "120",
+  "permissions": [
+    "storage",
+    "alarms",
+    "offscreen",
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "拾穗译",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*", "*://*.bilibili.com/*", "*://*.bilibili.tv/*"],
+      "js": ["content/track-hook.js"],
+      "world": "MAIN",
+      "run_at": "document_start",
+      "all_frames": false
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "common/languages.js",
+        "common/messages.js",
+        "common/util.js",
+        "content/store.js",
+        "content/extract.js",
+        "content/inject.js",
+        "content/fab.js",
+        "content/bubble.js",
+        "content/hover.js",
+        "content/input.js",
+        "content/observer.js",
+        "content/subtitle.js",
+        "content/ocr.js",
+        "content/main.js"
+      ],
+      "css": ["content/content.css"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "commands": {
+    "toggle-translate": {
+      "suggested_key": { "default": "Alt+T" },
+      "description": "翻译 / 还原当前页面"
+    },
+    "toggle-mode": {
+      "suggested_key": { "default": "Alt+Shift+T" },
+      "description": "循环切换显示模式"
+    },
+    "toggle-fab": {
+      "description": "显示 / 隐藏悬浮球"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "lib/*",
+        "icons/*",
+        "content/content.css",
+        "pdf/*",
+        "test/*"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

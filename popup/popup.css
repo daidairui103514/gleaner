@@ -1,0 +1,512 @@
+:root,
+html[data-theme='dark'] {
+  --bg: #1a1815;
+  --surface: #1d1b17;
+  --surface-2: #262319;
+  --line: rgba(235, 216, 180, 0.1);
+  --line-2: rgba(235, 216, 180, 0.18);
+  --amber: #e39b2c;
+  --amber-fill: #a8681a;
+  --on-amber: #1a1508;
+  --text: #ede5d5;
+  --text-2: #a59b87;
+  --text-3: #7c7466;
+  --hover: rgba(235, 216, 180, 0.06);
+  --accent-rgb: 186, 117, 23;
+}
+
+html[data-theme='light'] {
+  --bg: #f5f2ea;
+  --surface: #fdfbf6;
+  --surface-2: #efeade;
+  --line: rgba(60, 50, 30, 0.12);
+  --line-2: rgba(60, 50, 30, 0.22);
+  --amber: #9a5b06;
+  --amber-fill: #b0741a;
+  --on-amber: #fffaf0;
+  --text: #2b2822;
+  --text-2: #6c655a;
+  --text-3: #948c7e;
+  --hover: rgba(60, 50, 30, 0.05);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 340px;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.65 -apple-system, 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  padding: 16px 18px 14px;
+}
+
+/* ---------------------------------------------------------------- 头部 */
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+
+.title {
+  min-width: 0;
+}
+
+.title strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.title .site {
+  display: block;
+  font-size: 11.5px;
+  color: var(--text-3);
+  font-family: ui-monospace, Consolas, monospace;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.state {
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  color: var(--text-3);
+  padding-top: 3px;
+}
+
+/* ---------------------------------------------------------------- 控件 */
+
+.cta {
+  width: 100%;
+  padding: 12px 0;
+  margin-bottom: 16px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--amber-fill);
+  color: var(--on-amber);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.cta:hover {
+  filter: brightness(1.07);
+}
+
+.cta:disabled {
+  opacity: 0.7;
+  cursor: default;
+  filter: none;
+}
+
+.block {
+  margin-bottom: 16px;
+}
+
+.label {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+.seg {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.seg button {
+  padding: 9px 0;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.seg button:hover {
+  color: var(--text);
+  border-color: rgba(var(--accent-rgb), 0.34);
+}
+
+.seg button.on {
+  background: var(--amber-fill);
+  border-color: var(--amber-fill);
+  color: var(--on-amber);
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.range input {
+  flex: 1;
+  margin: 0;
+  accent-color: var(--amber-fill);
+  cursor: pointer;
+}
+
+.range .num {
+  flex: 0 0 44px;
+  text-align: right;
+  font-size: 12.5px;
+  color: var(--amber);
+  font-variant-numeric: tabular-nums;
+}
+
+.pick {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.pick:hover {
+  border-color: rgba(var(--accent-rgb), 0.34);
+}
+
+.pick small {
+  color: var(--text-3);
+  font-size: 12.5px;
+}
+
+/* ---------------------------------------------------------------- 底部 */
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  margin-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.foot button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--text-3);
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.foot button:hover {
+  color: var(--amber);
+}
+
+.tip {
+  margin: 12px 0 0;
+  font-size: 11.5px;
+  color: var(--text-3);
+  line-height: 1.6;
+  display: none;
+}
+
+.tip.on {
+  display: block;
+}
+
+/* ------------------------------------------------------------ 引擎列表 */
+
+.sub-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.sub-head .back {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 7px;
+  background: var(--hover);
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sub-head .back:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.sub-head span {
+  font-size: 13.5px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-2);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.list-item:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.list-item.on {
+  background: rgba(var(--accent-rgb), 0.16);
+  color: var(--amber);
+}
+
+.list-item small {
+  font-size: 11.5px;
+  color: var(--text-3);
+}
+
+.list-group {
+  padding: 10px 12px 5px;
+  font-size: 11px;
+  color: var(--text-3);
+}
+
+/* ------------------------------------------------------------ 本页设置 */
+
+.site-domain {
+  margin: 0 0 14px;
+  font-size: 12.5px;
+  color: var(--text-3);
+  font-family: ui-monospace, Consolas, monospace;
+  word-break: break-all;
+}
+
+.site-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.site-btn {
+  display: block;
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.site-btn:hover {
+  border-color: rgba(var(--accent-rgb), 0.36);
+}
+
+.site-btn:disabled {
+  opacity: 0.42;
+  cursor: default;
+}
+
+.site-btn:disabled:hover {
+  border-color: var(--line);
+}
+
+.site-btn strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.site-btn small {
+  display: block;
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--text-3);
+  line-height: 1.55;
+}
+
+/* ---------------------------------------------- 滑块（自定义，不用默认样式） */
+
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 5px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--amber-fill) 0%,
+    var(--amber) var(--fill, 0%),
+    rgba(235, 216, 180, 0.12) var(--fill, 0%),
+    rgba(235, 216, 180, 0.12) 100%
+  );
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 2px solid var(--bg);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  transition: transform 0.14s ease;
+}
+
+input[type='range']:hover::-webkit-slider-thumb {
+  transform: scale(1.14);
+}
+
+input[type='range']:focus {
+  outline: none;
+}
+
+input[type='range']::-moz-range-track {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(235, 216, 180, 0.12);
+}
+
+input[type='range']::-moz-range-progress {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--amber);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 2px solid var(--bg);
+}
+
+/* 界面配色色板 */
+.accents {
+  display: flex;
+  gap: 8px;
+}
+
+.accents button {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform 0.14s ease, border-color 0.14s ease;
+}
+
+.accents button:hover {
+  transform: scale(1.15);
+}
+
+.accents button.on {
+  border-color: var(--text);
+}
+
+/* 色块颜色写死 —— 它代表配色本身，不能跟着当前配色走 */
+.accents button[data-accent='amber'] {
+  background: #e39b2c;
+}
+
+.accents button[data-accent='teal'] {
+  background: #2aa286;
+}
+
+.accents button[data-accent='indigo'] {
+  background: #6d80e0;
+}
+
+.accents button[data-accent='rose'] {
+  background: #d9638d;
+}
+
+.accents button[data-accent='slate'] {
+  background: #8d8b82;
+}
+
+/* 配色名的说明文字朝上弹 —— 弹窗本身往下展开，
+   往下弹的话正好被鼠标和弹窗边缘挡住 */
+.accents button {
+  position: relative;
+}
+
+.accents button::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3px 8px;
+  border-radius: 7px;
+  background: var(--surface-2);
+  border: 1px solid var(--line-2);
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease;
+  z-index: 5;
+}
+
+.accents button:hover::after,
+.accents button:focus-visible::after {
+  opacity: 1;
+}

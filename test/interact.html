@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Interaction Test</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 40px;
+        background: #17161a;
+        color: #e8e2d6;
+        font: 16px/1.7 -apple-system, "Segoe UI", sans-serif;
+      }
+      .box {
+        max-width: 680px;
+        margin: 0 auto 22px;
+        padding: 18px 20px;
+        border: 1px solid #2c2a26;
+        border-radius: 12px;
+        background: #1d1c19;
+      }
+      h2 {
+        font-size: 15px;
+        margin: 0 0 12px;
+        color: #c9a35e;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #33302a;
+        background: #131211;
+        color: #e8e2d6;
+        font: 15px/1.6 inherit;
+        box-sizing: border-box;
+      }
+      textarea {
+        min-height: 90px;
+        margin-top: 10px;
+      }
+      p {
+        margin: 0;
+      }
+      .hint {
+        font-size: 12.5px;
+        color: #8a8375;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h2>悬停翻译测试区</h2>
+      <p id="para">
+        The paragraph is the right unit of translation because it carries enough context to disambiguate a
+        word while remaining small enough to render instantly.
+      </p>
+      <p class="hint">按住 Ctrl 并把鼠标放在上面这段文字上。</p>
+    </div>
+
+    <div class="box">
+      <h2>划词翻译测试区</h2>
+      <p id="para2">
+        Reading a foreign page is not the same as reading a translated one.
+      </p>
+      <p class="hint">选中上面这句话。</p>
+    </div>
+
+    <div class="box">
+      <h2>输入框翻译测试区</h2>
+      <input id="q" type="text" placeholder="输入后连按三次空格" />
+      <textarea id="t" placeholder="多行输入框也一样"></textarea>
+      <p class="hint">输入英文后快速连按三次空格键。</p>
+    </div>
+
+    <div class="box">
+      <h2>图片 OCR 测试区</h2>
+      <img id="ocr-img" src="/ocr-sample.png" alt="ocr sample" style="max-width: 100%; border-radius: 8px" />
+      <p class="hint">这张图里有四行英文，用来验证图片文字翻译。</p>
+    </div>
+  </body>
+</html>

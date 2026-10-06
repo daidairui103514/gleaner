@@ -1,0 +1,158 @@
+/* 琥珀翻译 · 注入样式
+   仅作用于扩展自己创建的节点，所有关键属性用 !important 抵抗站点样式覆盖。 */
+
+:root {
+  --amber-scale: 1;
+  --amber-line-height: 1.6;
+  --amber-color: #9a5b06;
+  --amber-border-color: #ba7517;
+  --amber-opacity: 1;
+  --amber-margin-top: 6px;
+  --amber-margin-bottom: 14px;
+  --amber-padding-left: 10px;
+  --amber-max-width: none;
+  --amber-background: transparent;
+  --amber-font-family: inherit;
+  --amber-border-width: 2px;
+  --amber-border-style: solid;
+}
+
+/* ------------------------------------------------------------- 译文节点 */
+
+html[data-amber-active] span.amber-tr {
+  display: block !important;
+  box-sizing: border-box !important;
+  font-family: var(--amber-font-family, inherit) !important;
+  font-size: var(--amber-font-size, calc(var(--amber-base-size, 1em) * var(--amber-scale, 1))) !important;
+  font-weight: var(--amber-base-weight, inherit) !important;
+  font-style: var(--amber-base-style, inherit) !important;
+  line-height: var(--amber-line-height, 1.6) !important;
+  letter-spacing: inherit !important;
+  text-align: var(--amber-base-align, inherit) !important;
+  text-indent: 0 !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  text-shadow: none !important;
+  color: var(--amber-color, #9a5b06) !important;
+  opacity: var(--amber-opacity, 1) !important;
+  background: var(--amber-background, transparent) !important;
+  border: 0 !important;
+  border-left: var(--amber-border-width, 2px) var(--amber-border-style, solid) var(--amber-border-color, #ba7517) !important;
+  border-radius: 0 !important;
+  padding: 0 0 0 var(--amber-padding-left, 10px) !important;
+  margin: var(--amber-margin-top, 6px) 0 var(--amber-margin-bottom, 14px) 0 !important;
+  max-width: var(--amber-max-width, none) !important;
+  width: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere;
+  position: static !important;
+  float: none !important;
+  transform: none !important;
+  unicode-bidi: isolate;
+  visibility: visible !important;
+  z-index: auto !important;
+}
+
+/* 段落内追加的译文不要额外顶开间距 */
+html[data-amber-active] li > span.amber-tr:last-child,
+html[data-amber-active] td > span.amber-tr:last-child,
+html[data-amber-active] th > span.amber-tr:last-child,
+html[data-amber-active] dd > span.amber-tr:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* --------------------------------------------------------------- 加载态 */
+
+html[data-amber-active] span.amber-tr-loading {
+  border-left-color: transparent !important;
+  margin-bottom: var(--amber-margin-bottom, 14px) !important;
+}
+
+html[data-amber-active] span.amber-tr-loading > i.amber-skeleton {
+  display: block !important;
+  height: 0.85em !important;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 3px !important;
+  background-image: linear-gradient(
+    90deg,
+    rgba(128, 128, 128, 0.13) 25%,
+    rgba(128, 128, 128, 0.26) 37%,
+    rgba(128, 128, 128, 0.13) 63%
+  ) !important;
+  background-size: 400% 100% !important;
+  animation: amber-shimmer 1.5s ease infinite;
+}
+
+@keyframes amber-shimmer {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+/* --------------------------------------------------------------- 错误态 */
+
+html[data-amber-active] span.amber-tr-error {
+  color: #d9534f !important;
+  opacity: 0.85 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  cursor: pointer !important;
+  border-left-color: transparent !important;
+  user-select: none;
+}
+
+/* ------------------------------------------------------------- 显示模式 */
+
+/* 仅原文：藏起所有译文 */
+html.amber-mode-source span.amber-tr {
+  display: none !important;
+}
+
+/* 仅译文：藏起原文块 */
+html.amber-mode-translation .amber-src-block {
+  display: none !important;
+}
+
+/* 仅译文：译文在原文块内部的情况 */
+html.amber-mode-translation .amber-with-inner-tr {
+  font-size: 0 !important;
+  line-height: 0 !important;
+}
+
+html.amber-mode-translation .amber-with-inner-tr > *:not(span.amber-tr) {
+  display: none !important;
+}
+
+html.amber-mode-translation .amber-with-inner-tr > span.amber-tr {
+  font-size: var(--amber-font-size, calc(var(--amber-base-size, 1em) * var(--amber-scale, 1))) !important;
+  line-height: var(--amber-line-height, 1.6) !important;
+  margin-bottom: 0 !important;
+}
+
+/* --------------------------------------------------------------- 悬停译文 */
+
+html[data-amber-active] span.amber-tr-hover {
+  display: block !important;
+  box-sizing: border-box !important;
+  font-size: var(--amber-font-size, calc(var(--amber-base-size, 1em) * var(--amber-scale, 1))) !important;
+  line-height: var(--amber-line-height, 1.6) !important;
+  color: var(--amber-color, #9a5b06) !important;
+  border-left: var(--amber-border-width, 2px) var(--amber-border-style, solid) var(--amber-border-color, #ba7517) !important;
+  padding-left: var(--amber-padding-left, 10px) !important;
+  margin: var(--amber-margin-top, 6px) 0 0 0 !important;
+  opacity: var(--amber-opacity, 1) !important;
+  background: var(--amber-background, transparent) !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
+/* --------------------------------------------------------------- 打印 */
+
+@media print {
+  html.amber-mode-translation .amber-src-block {
+    display: none !important;
+  }
+}

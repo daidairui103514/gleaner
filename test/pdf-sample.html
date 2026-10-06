@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>The Quiet Craft of Reading Machines</title>
+    <style>
+      @page {
+        size: A4;
+        margin: 20mm 18mm;
+      }
+      body {
+        font: 11pt/1.7 Georgia, 'Times New Roman', serif;
+        color: #1a1a1a;
+        margin: 0;
+      }
+      h1 {
+        font-size: 20pt;
+        line-height: 1.3;
+        margin: 0 0 6pt;
+      }
+      .byline {
+        font-size: 9.5pt;
+        color: #666;
+        margin: 0 0 20pt;
+        padding-bottom: 12pt;
+        border-bottom: 1px solid #ddd;
+      }
+      h2 {
+        font-size: 13pt;
+        margin: 20pt 0 8pt;
+      }
+      p {
+        margin: 0 0 11pt;
+        text-align: justify;
+      }
+      ul {
+        margin: 0 0 12pt;
+        padding-left: 20pt;
+      }
+      li {
+        margin-bottom: 5pt;
+      }
+      blockquote {
+        margin: 14pt 0;
+        padding: 6pt 0 6pt 14pt;
+        border-left: 3px solid #d8c9a8;
+        color: #444;
+        font-style: italic;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 12pt 0;
+        font-size: 10pt;
+        font-family: -apple-system, 'Segoe UI', sans-serif;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 6pt 8pt;
+        text-align: left;
+      }
+      th {
+        background: #f5f3ee;
+      }
+      code {
+        font-family: Consolas, monospace;
+        font-size: 9.5pt;
+        background: #f2f0eb;
+        padding: 1pt 4pt;
+        border-radius: 3px;
+      }
+      .pagebreak {
+        page-break-before: always;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>The Quiet Craft of Reading Machines</h1>
+    <p class="byline">A short essay on translation, attention, and the tools we build to bridge languages</p>
+
+    <p>
+      Every translation begins with a small act of surrender. The reader admits, however briefly, that the
+      sentence in front of them was not written for them. Something was said in another room, in another
+      grammar, by someone who did not know they would one day be overheard. The translator's task is not to
+      pretend otherwise, but to carry the meaning across without smoothing away the fingerprints.
+    </p>
+
+    <p>
+      Machine translation has changed the economics of this work considerably. A decade ago, reading a
+      foreign-language forum thread meant either patience or fluent friends. Today the same text arrives in
+      a second language before the page finishes rendering. The transformation is easy to celebrate and
+      equally easy to misread.
+    </p>
+
+    <h2>What a translation tool actually does</h2>
+
+    <p>
+      A page translator performs three distinct jobs, and conflating them leads to bad design. First it must
+      <strong>find</strong> the parts of a document that carry meaning — a task that sounds trivial until
+      you meet a navigation menu, a code block, or a caption rendered inside an image. Second it must
+      <strong>transfer</strong> that meaning into the target language, ideally preserving register and
+      intent. Third it must <strong>return</strong> the result without trampling the layout that the
+      original author spent years refining.
+    </p>
+
+    <p>Most tools are excellent at the second job and mediocre at the other two. That imbalance explains a lot about user complaints.</p>
+
+    <ul>
+      <li>Extraction errors look like missing translations, so users blame the engine.</li>
+      <li>Layout damage looks like bad typography, so users blame the design.</li>
+      <li>Genuine engine failures produce text that reads fluently and means nothing.</li>
+    </ul>
+
+    <h2>The case for bilingual reading</h2>
+
+    <p>
+      There is a strong argument for keeping the original text visible rather than replacing it. Readers of
+      technical documentation routinely need to check a variable name, a citation, or an exact phrasing that
+      a translation has rearranged. A bilingual layout preserves that access at the cost of some vertical
+      space. For a reference document, that is almost always the right trade.
+    </p>
+
+    <blockquote>
+      The goal is not to make a foreign page look domestic. It is to let a reader stand in two places at
+      once without losing their footing in either.
+    </blockquote>
+
+    <h2>Where current tools still struggle</h2>
+
+    <p>
+      Handwriting remains the hardest case by a wide margin. Optical character recognition systems trained on
+      printed type encounter cursive script and produce confident nonsense — strings of letters that resemble
+      words but belong to no language. A translation engine receiving such input has two options, and both are
+      defensible: return the input unchanged, or attempt a guess. Most return the input, which is why the
+      translated column sometimes looks identical to the original.
+    </p>
+
+    <p>
+      Historical documents compound the problem. Paper ages unevenly, ink bleeds, and letterforms follow
+      conventions that fell out of use centuries ago. Improving results in this domain requires preprocessing
+      the image — upscaling, converting to grayscale, normalising contrast — before recognition even begins.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Document type</th>
+          <th>Recognition difficulty</th>
+          <th>Practical workaround</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Born-digital PDF</td>
+          <td>None — text layer is exact</td>
+          <td>Read the text layer directly</td>
+        </tr>
+        <tr>
+          <td>Scanned print</td>
+          <td>Low</td>
+          <td>Upscale, then recognise</td>
+        </tr>
+        <tr>
+          <td>Handwriting</td>
+          <td>Very high</td>
+          <td>Cloud OCR or a vision model</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 class="pagebreak">Notes on privacy</h2>
+
+    <p>
+      A translation tool that runs entirely on the reader's machine makes a different promise from one that
+      forwards every page to a server. Local operation costs speed and model quality; it buys the guarantee
+      that nobody else observes what you read. Neither arrangement is universally correct, but the choice
+      should be explicit rather than buried in a settings screen.
+    </p>
+
+    <p>
+      The tools worth keeping are the ones that state their limits plainly. A translator that admits "this
+      looks like handwriting, and I will probably fail" is more useful than one that produces elegant
+      nonsense and lets the reader discover the problem three paragraphs later.
+    </p>
+
+    <p>
+      Reading is slow, private, and stubbornly personal. Whatever machinery we place between a reader and a
+      text should be judged by how little it interrupts that relationship — and by how honestly it reports
+      when it cannot help.
+    </p>
+
+    <p style="margin-top: 24pt; font-size: 9.5pt; color: #777">
+      End of document. This file exists to exercise paragraph detection, heading handling, list and table
+      rendering, and page breaks during translation.
+    </p>
+  </body>
+</html>

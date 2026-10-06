@@ -1,0 +1,374 @@
+/* 通用 UI 组件样式：自定义下拉 + 滑块 */
+
+/* ------------------------------------------------------------ 下拉框 */
+
+.ui-select {
+  position: relative;
+  width: 100%;
+}
+
+.ui-select-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+}
+
+.ui-select-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 13px;
+  border: 1px solid var(--line, rgba(235, 216, 180, 0.12));
+  border-radius: 10px;
+  background: var(--surface, #1d1b17);
+  color: var(--text, #ede5d5);
+  font: inherit;
+  font-size: 13.5px;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.ui-select-btn:hover {
+  border-color: rgba(186, 117, 23, 0.38);
+}
+
+.ui-select-btn:focus-visible {
+  outline: none;
+  border-color: rgba(186, 117, 23, 0.55);
+}
+
+.ui-select.disabled .ui-select-btn {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ui-select-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-select-label.placeholder {
+  color: var(--text-3, #7c7466);
+}
+
+.ui-select-arrow {
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--text-3, #7c7466);
+  transition: transform 0.18s;
+}
+
+.ui-select.open .ui-select-arrow {
+  transform: rotate(180deg);
+}
+
+.ui-select-pop {
+  position: fixed;
+  z-index: 2147483000;
+  padding: 6px;
+  border: 1px solid rgba(186, 117, 23, 0.26);
+  border-radius: 12px;
+  background: var(--surface, #1d1b17);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: ui-pop 0.14s ease-out;
+}
+
+@keyframes ui-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ui-select-pop.up {
+  animation-name: ui-pop-up;
+}
+
+@keyframes ui-pop-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ui-select-search {
+  padding: 2px 2px 7px;
+  flex: 0 0 auto;
+}
+
+.ui-select-search input {
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line, rgba(235, 216, 180, 0.12));
+  background: var(--surface-2, #262319);
+  color: var(--text, #ede5d5);
+  font: inherit;
+  font-size: 12.5px;
+}
+
+.ui-select-search input:focus {
+  outline: none;
+  border-color: rgba(186, 117, 23, 0.45);
+}
+
+.ui-select-list {
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  margin: 0 -2px;
+  padding: 0 2px;
+}
+
+.ui-select-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ui-select-list::-webkit-scrollbar-thumb {
+  background: rgba(235, 216, 180, 0.16);
+  border-radius: 3px;
+}
+
+.ui-select-group {
+  padding: 9px 10px 5px;
+  font-size: 11px;
+  color: var(--text-3, #7c7466);
+}
+
+.ui-select-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-2, #a59b87);
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ui-select-item:hover {
+  background: rgba(235, 216, 180, 0.07);
+  color: var(--text, #ede5d5);
+}
+
+.ui-select-item.on {
+  background: rgba(186, 117, 23, 0.18);
+  color: var(--amber, var(--amber));
+}
+
+.ui-select-item small {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--text-3, #7c7466);
+}
+
+.ui-select-empty {
+  padding: 14px 10px;
+  font-size: 12.5px;
+  color: var(--text-3, #7c7466);
+  text-align: center;
+}
+
+/* -------------------------------------------------------------- 滑块 */
+
+.num-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 236px;
+  min-width: 0;
+}
+
+.num-wrap input[type='range'] {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 22px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(
+    to right,
+    var(--amber-fill) 0%,
+    var(--amber) var(--fill, 0%),
+    rgba(235, 216, 180, 0.1) var(--fill, 0%),
+    rgba(235, 216, 180, 0.1) 100%
+  );
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.32);
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, var(--amber-soft), var(--amber) 58%, var(--amber-fill));
+  border: 2px solid var(--on-amber);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+input[type='range']:hover::-webkit-slider-thumb {
+  transform: scale(1.14);
+  box-shadow: 0 3px 10px rgba(227, 155, 44, 0.5);
+}
+
+input[type='range']:active::-webkit-slider-thumb {
+  transform: scale(1.04);
+}
+
+input[type='range']:focus {
+  outline: none;
+}
+
+input[type='range']::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(235, 216, 180, 0.1);
+}
+
+input[type='range']::-moz-range-progress {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--amber);
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 2px solid var(--on-amber);
+}
+
+/* ---------------------------------------------------------- 数值输入框 */
+
+input.val {
+  flex: 0 0 64px;
+  width: 64px;
+  padding: 5px 7px;
+  border-radius: 8px;
+  border: 1px solid var(--line, rgba(235, 216, 180, 0.12));
+  background: var(--surface, #1d1b17);
+  color: var(--amber, var(--amber));
+  font: inherit;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+input.val:hover {
+  border-color: rgba(186, 117, 23, 0.35);
+}
+
+input.val:focus {
+  outline: none;
+  border-color: rgba(var(--accent-rgb), 0.75);
+  background: var(--surface-2, #262319);
+  /* 之前是金色，和边框、数字叠在一起基本看不清 */
+  color: var(--text, #ede5d5);
+}
+
+input.val::-webkit-inner-spin-button,
+input.val::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input.val[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* ------------------------------------------------ 光标与选中
+
+   界面元素默认会带文本光标（I 形），点到标题、说明文字上会闪一下，
+   看着像可以打字其实并不能。这里统一收掉，输入框保留。 */
+
+.nav,
+.group,
+.line,
+.glabel,
+.field > label,
+.tip,
+.banner,
+.row-actions,
+.detail-card,
+.detail-note,
+.ui-select,
+.engine-item,
+.engine-item .info,
+.site-item,
+.hint,
+.accent-picker,
+.switch-wrap,
+.profile-head {
+  user-select: none;
+  cursor: default;
+}
+
+.line .txt,
+.line .txt small,
+.glabel,
+.tip,
+.hint {
+  user-select: none;
+}
+
+input,
+textarea {
+  user-select: text;
+  cursor: text;
+}
+
+input[type='checkbox'],
+input[type='color'],
+input[type='range'],
+button,
+select,
+.ui-select-btn {
+  cursor: pointer;
+}
