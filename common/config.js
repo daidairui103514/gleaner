@@ -1,4 +1,3 @@
-/* 默认设置与配置读写（background / popup / options 共用 ES module） */
 
 export const DEFAULT_SETTINGS = {
   engine: 'bing',
@@ -6,7 +5,6 @@ export const DEFAULT_SETTINGS = {
   targetLang: 'zh-Hans',
   displayMode: 'bilingual',
   theme: 'dark',
-  /* 界面强调色：amber | teal | indigo | rose | slate */
   accent: 'amber',
 
   auto: {
@@ -82,11 +80,8 @@ export const DEFAULT_SETTINGS = {
     /* bilingual | translation | source */
     display: 'bilingual',
     blur: false,
-    /* solid | translucent | none —— 字幕底色 */
     background: 'translucent',
-    /* 距视频底部的位置，单位 % */
     offset: 7,
-    /* 只按时间轴（预翻译）| auto —— auto 时会退回实时抓取 */
     mode: 'auto'
   },
   pdf: { enabled: true },
@@ -95,7 +90,6 @@ export const DEFAULT_SETTINGS = {
   concurrency: 6
 };
 
-/** 深合并：只覆盖用户真正设置过的字段，保证新版本增加的默认项不会丢失 */
 export function mergeSettings(base, patch) {
   if (!patch || typeof patch !== 'object') return base;
   const out = Array.isArray(base) ? base.slice() : Object.assign({}, base);
@@ -115,7 +109,6 @@ export async function loadSettings() {
   return migrate(mergeSettings(DEFAULT_SETTINGS, stored.settings || {}));
 }
 
-/** 老版本的单个大模型配置，升级成多套配置 */
 export function migrate(settings) {
   const engines = settings.engines || (settings.engines = {});
   const openai = engines.openai || (engines.openai = {});
@@ -147,11 +140,9 @@ export function migrate(settings) {
   /* 字号和宽度以前是百分比，现在改成像素，老数值要迁过来，否则会变成 100px 这种离谱的值 */
   const style = settings.style || (settings.style = {});
   if (typeof style.fontSize === 'number' && style.fontSize > 40) {
-    /* 旧的百分比值：100% 约等于跟在原文后面，直接回到「跟随原文」 */
     style.fontSize = 0;
   }
   if (typeof style.maxWidth === 'number' && style.maxWidth > 0 && style.maxWidth <= 100) {
-    /* 旧的百分比值：100% 表示不限制 */
     style.maxWidth = 1600;
   }
 

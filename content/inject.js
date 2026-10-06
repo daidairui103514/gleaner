@@ -1,4 +1,3 @@
-/* 译文注入、显示模式切换、样式变量 */
 (function (root) {
   'use strict';
 
@@ -24,7 +23,6 @@
     return node;
   }
 
-  /** 读取原文块的字号 / 字重 / 斜体 / 对齐，让译文视觉上和原文一致 */
   function baseStyleOf(el) {
     const out = { size: 0, weight: '', style: '', align: '' };
     try {
@@ -35,7 +33,6 @@
       if (cs.fontStyle && cs.fontStyle !== 'normal') out.style = cs.fontStyle;
       if (cs.textAlign) out.align = cs.textAlign;
     } catch (e) {
-      /* 取不到就用默认值 */
     }
     if (!out.size) {
       try {
@@ -47,7 +44,6 @@
     return out;
   }
 
-  /** 把译文挂到段落上 */
   function attach(segment, text) {
     if (!segment || !segment.el || !text) return null;
     if (segment.trEl && segment.trEl.isConnected) {
@@ -100,7 +96,6 @@
     if (segment) segment.loadingEl = null;
   }
 
-  /** 标记这段翻译失败 */
   function markFailed(segment, reason) {
     clearLoading(segment);
     if (!segment || !segment.el) return;
@@ -122,7 +117,6 @@
     segment.trEl = node;
   }
 
-  /* ------------------------------------------------------------ 显示模式 */
 
   function applyMode(mode) {
     const html = document.documentElement;
@@ -134,7 +128,6 @@
     return mode;
   }
 
-  /* ---------------------------------------------------------------- 样式 */
 
   function detectPageDark() {
     function luminance(color) {
@@ -157,13 +150,11 @@
         if (lum === null) continue;
         return lum < 0.5;
       } catch (e) {
-        /* 继续尝试下一个 */
       }
     }
     return false;
   }
 
-  /* 内置配色预设：每种都给了「深色网页」和「浅色网页」两档 */
   const COLOR_PRESETS = {
     amber: { dark: '#fac775', light: '#9a5b06' },
     teal: { dark: '#7fd8c0', light: '#0f6e56' },
@@ -176,7 +167,6 @@
     const s = Object.assign({}, style || {});
     const rs = document.documentElement.style;
 
-    /* 字号：0 表示跟随原文，大于 0 时用固定像素值 */
     if (s.fontSize > 0) {
       rs.setProperty('--amber-font-size', s.fontSize + 'px');
     } else {
@@ -218,7 +208,6 @@
     return 'inherit';
   }
 
-  /* ------------------------------------------------------------ 还原 / 导出 */
 
   function removeAll() {
     document.querySelectorAll('.' + TR_CLASS).forEach(function (node) {

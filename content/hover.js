@@ -1,4 +1,3 @@
-/* 悬停翻译：按住 Ctrl（可配置）把鼠标所在段落翻出来，松开收起 */
 (function (root) {
   'use strict';
 

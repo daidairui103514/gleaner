@@ -1,4 +1,3 @@
-/* 内容脚本侧：配置读取、与后台通信、页面状态 */
 (function (root) {
   'use strict';
 
@@ -56,7 +55,6 @@
       try {
         fn(event, payload);
       } catch (e) {
-        /* 单个监听器异常不影响其它 */
       }
     });
   }
@@ -85,7 +83,6 @@
     });
   }
 
-  /** 带重试的翻译请求 */
   async function translate(texts, options) {
     const payload = Object.assign(
       {
@@ -141,7 +138,6 @@
     return res;
   }
 
-  /** 把当前这套配置记到这个网站名下 */
   async function saveToSite() {
     if (!state.domain) return { ok: false, error: '这个页面不支持单独保存' };
     const s = state.settings;
@@ -170,7 +166,6 @@
     emit('progress', state.progress);
   }
 
-  /** 注入扩展自己的样式表（用于隔离站点样式） */
   function ensureStylesheet() {
     if (document.getElementById(STYLE_ID)) return;
     const link = document.createElement('link');
@@ -178,19 +173,14 @@
     link.rel = 'stylesheet';
     link.href = chrome.runtime.getURL('content/content.css');
     link.addEventListener('error', function () {
-      /* 样式表加载失败时由 fab/bubble 内联样式兜底 */
     });
     (document.head || document.documentElement).appendChild(link);
   }
 
-  /* 设置页改了东西，已经打开的页面要跟着变，不用手动刷新 */
   try {
     chrome.storage.onChanged.addListener(function (changes, area) {
       if (area !== 'local' || !changes.settings || !changes.settings.newValue) return;
 
-      /* 这个站点存过独立配置就完全以它为准，全局改动一律不影响它。
-         要改这里的设置，用页面上悬浮面板 / 播放器菜单里那套 ——
-         那边改完会当场生效，并且直接写进本页的配置。 */
       if (state.hasSiteConfig) return;
 
       state.settings = changes.settings.newValue;
@@ -198,7 +188,6 @@
       emit('settings');
     });
   } catch (e) {
-    /* 忽略 */
   }
 
   /* 强调色表：界面各个浮层（悬浮球、划词气泡、播放器菜单）都从这里取色，

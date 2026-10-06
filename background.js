@@ -1,11 +1,7 @@
-/**
- * 后台服务工作线程：翻译调度、缓存、快捷键、右键菜单。
- */
 import { loadSettings, saveSettings, getSiteConfig, saveSiteConfig } from './common/config.js';
 import { cacheKey, getMany, setMany, clearAll, stats as cacheStats, prune } from './common/cache.js';
 import { getEngine } from './engines/index.js';
 
-/* ------------------------------------------------------------------ 工具 */
 
 function langLabel(code) {
   const map = {
@@ -33,7 +29,6 @@ async function sendToTab(tabId, message) {
   }
 }
 
-/* ------------------------------------------------------------ 翻译主流程 */
 
 async function translateTexts(payload) {
   const texts = Array.isArray(payload.texts) ? payload.texts : [];
@@ -48,7 +43,6 @@ async function translateTexts(payload) {
   let engineConfig = {};
 
   if (requested.indexOf('openai:') === 0) {
-    /* 形如 openai:xxxx，指向某一套大模型配置 */
     const profileId = requested.slice(7);
     const cfg = settings.engines.openai || {};
     const list = Array.isArray(cfg.profiles) ? cfg.profiles : [];
@@ -149,7 +143,6 @@ async function translateTexts(payload) {
     try {
       await setMany(store);
     } catch (e) {
-      /* 缓存写入失败不影响翻译结果 */
     }
   }
 
@@ -181,7 +174,6 @@ function AmberUtilMakeBatches(items, maxCount, maxChars) {
   return batches;
 }
 
-/** 并发执行，单批失败不影响整体 */
 function poolRun(tasks, limit, onError) {
   return new Promise(function (resolve) {
     let index = 0;
@@ -207,7 +199,6 @@ function poolRun(tasks, limit, onError) {
   });
 }
 
-/* ------------------------------------------------------------- 消息路由 */
 
 const M = {
   TRANSLATE: 'amber:translate',
@@ -233,7 +224,6 @@ const M = {
   SETTINGS_CHANGED: 'amber:settings-changed'
 };
 
-/* ------------------------------------------------------------ 离屏 OCR */
 
 let offscreenSetup = null;
 
@@ -368,7 +358,6 @@ async function broadcastSettings(settings) {
   }
 }
 
-/* --------------------------------------------------------- 命令与菜单 */
 
 async function activeTab() {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -478,7 +467,6 @@ chrome.contextMenus.onClicked.addListener(async function (info, tab) {
   }
 });
 
-/* ------------------------------------------------------------ PDF 接管 */
 
 function isPdfUrl(url) {
   if (!url) return false;
@@ -494,13 +482,11 @@ chrome.tabs.onUpdated.addListener(async function (tabId, changeInfo) {
     const settings = await loadSettings();
     if (settings.pdf && settings.pdf.enabled === false) return;
   } catch (e) {
-    /* 读配置失败时仍然接管 */
   }
   const viewer = chrome.runtime.getURL('pdf/viewer.html') + '?file=' + encodeURIComponent(url);
   chrome.tabs.update(tabId, { url: viewer }).catch(function () {});
 });
 
-/* --------------------------------------------------------------- 生命周期 */
 
 chrome.runtime.onInstalled.addListener(async function (details) {
   await setupMenus();
@@ -509,7 +495,6 @@ chrome.runtime.onInstalled.addListener(async function (details) {
   try {
     await chrome.alarms.create('amber-prune', { periodInMinutes: 24 * 60 });
   } catch (e) {
-    /* 无 alarms 权限时忽略 */
   }
   if (details.reason === 'install') {
     chrome.tabs.create({ url: chrome.runtime.getURL('options/options.html?welcome=1') });

@@ -56,7 +56,6 @@ body {
   padding: 16px 18px 14px;
 }
 
-/* ---------------------------------------------------------------- 头部 */
 
 .head {
   display: flex;
@@ -98,7 +97,6 @@ body {
   padding-top: 3px;
 }
 
-/* ---------------------------------------------------------------- 控件 */
 
 .cta {
   width: 100%;
@@ -209,7 +207,6 @@ body {
   font-size: 12.5px;
 }
 
-/* ---------------------------------------------------------------- 底部 */
 
 .foot {
   display: flex;
@@ -245,7 +242,6 @@ body {
   display: block;
 }
 
-/* ------------------------------------------------------------ 引擎列表 */
 
 .sub-head {
   display: flex;
@@ -313,7 +309,6 @@ body {
   color: var(--text-3);
 }
 
-/* ------------------------------------------------------------ 本页设置 */
 
 .site-domain {
   margin: 0 0 14px;
@@ -370,7 +365,6 @@ body {
   line-height: 1.55;
 }
 
-/* ---------------------------------------------- 滑块（自定义，不用默认样式） */
 
 input[type='range'] {
   -webkit-appearance: none;
@@ -435,7 +429,6 @@ input[type='range']::-moz-range-thumb {
   border: 2px solid var(--bg);
 }
 
-/* 界面配色色板 */
 .accents {
   display: flex;
   gap: 8px;
@@ -459,7 +452,6 @@ input[type='range']::-moz-range-thumb {
   border-color: var(--text);
 }
 
-/* 色块颜色写死 —— 它代表配色本身，不能跟着当前配色走 */
 .accents button[data-accent='amber'] {
   background: #e39b2c;
 }
@@ -480,8 +472,6 @@ input[type='range']::-moz-range-thumb {
   background: #8d8b82;
 }
 
-/* 配色名的说明文字朝上弹 —— 弹窗本身往下展开，
-   往下弹的话正好被鼠标和弹窗边缘挡住 */
 .accents button {
   position: relative;
 }

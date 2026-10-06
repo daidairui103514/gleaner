@@ -1,4 +1,3 @@
-/* PDF 双语阅读器：pdf.js 渲染原文，按段落提取文本并双语对照 */
 import * as pdfjsLib from '../lib/pdfjs/pdf.mjs';
 import { upgradeSelects } from '../common/ui.js';
 
@@ -6,8 +5,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = chrome.runtime.getURL('lib/pdfjs/pdf.wo
 
 const CDN = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/';
 
-/* PDF 阅读器是独立的扩展页面，拿不到设置页那套 CSS 规则，
-   这里自己把强调色挂上去 */
 const ACCENTS = {
   amber: { main: '#e39b2c', soft: '#fac775', fill: '#a8681a', on: '#1a1508', rgb: '186, 117, 23' },
   teal: { main: '#4bd6b4', soft: '#8ff0d8', fill: '#17705c', on: '#04170f', rgb: '23, 112, 92' },
@@ -42,15 +39,12 @@ const state = {
   ready: false
 };
 
-/* 段落文本 → 译文。换字号 / 缩放都会重新提取段落，
-   靠这张表把译文按原文接回去，不然会整页变回「等待翻译」。 */
 const translationCache = new Map();
 
 const $ = function (id) {
   return document.getElementById(id);
 };
 
-/** 更新状态条；working 为真时左侧小圆点会呼吸，表示正在忙 */
 function setStatus(text, working) {
   const el = $('status');
   if (!el) return;
@@ -58,7 +52,6 @@ function setStatus(text, working) {
   el.classList.toggle('working', !!working);
 }
 
-/* ------------------------------------------------------------- 文本分组 */
 
 function toScreen(item, viewport) {
   const m = pdfjsLib.Util.transform(viewport.transform, item.transform);
@@ -69,7 +62,6 @@ function toScreen(item, viewport) {
   };
 }
 
-/** 把 pdf.js 的文本碎片按行、再按段落聚合 */
 function groupParagraphs(items, viewport) {
   const lines = [];
 
@@ -153,7 +145,6 @@ function groupParagraphs(items, viewport) {
     });
 }
 
-/* ----------------------------------------------------------------- 渲染 */
 
 async function renderPage(num) {
   const page = await state.doc.getPage(num);
@@ -175,7 +166,6 @@ async function renderPage(num) {
   const content = await page.getTextContent();
   const paragraphs = groupParagraphs(content.items, viewport);
 
-  /* 缩放会重跑这一段，按原文把翻译过的内容接回来 */
   paragraphs.forEach(function (para) {
     const hit = translationCache.get(para.text);
     if (hit) para.translation = hit;
@@ -206,14 +196,12 @@ function paintPage(num) {
     dst.textContent = para.translation || '等待翻译…';
     if (!para.translation) dst.classList.add('hint');
 
-    /* 原文在上、译文在下 */
     seg.appendChild(src);
     seg.appendChild(dst);
     host.appendChild(seg);
   });
 }
 
-/* ----------------------------------------------------------------- 翻译 */
 
 function sendTranslate(texts) {
   return new Promise(function (resolve, reject) {
@@ -311,7 +299,6 @@ async function translateAll() {
   );
 }
 
-/* ----------------------------------------------------------------- 轮廓 */
 
 async function loadDocument() {
   if (!fileUrl) {
@@ -340,7 +327,6 @@ async function loadDocument() {
   try {
     name = decodeURIComponent(fileUrl.split('/').pop().split('?')[0]) || fileUrl;
   } catch (e) {
-    /* 用原始地址兜底 */
   }
   document.title = name + ' · PDF 双语翻译';
   $('doc-title').textContent = name;
@@ -368,7 +354,6 @@ async function loadDocument() {
   setStatus('共 ' + state.doc.numPages + ' 页，已就绪，点「翻译全文」开始双语对照。', false);
 }
 
-/* ----------------------------------------------------------------- 交互 */
 
 function bindUi() {
   $('translate').addEventListener('click', translateAll);
@@ -413,10 +398,8 @@ function jump() {
 }
 
 bindUi();
-/* 工具栏的下拉也换成和设置页一致的自定义控件，不用浏览器默认样式 */
 upgradeSelects(document);
 
-/* 读一次设置把强调色挂上，之后设置页改了也跟着变 */
 (async function () {
   try {
     const stored = await chrome.storage.local.get('settings');
@@ -430,7 +413,6 @@ upgradeSelects(document);
       applyAccent(changes.settings.newValue);
     });
   } catch (e) {
-    /* 忽略 */
   }
 })();
 

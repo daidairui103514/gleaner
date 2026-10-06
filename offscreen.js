@@ -1,4 +1,3 @@
-/* 离屏文档：在后台跑本地 OCR，不占用页面线程 */
 
 const LANG_DIR = 'lib/tesseract/lang';
 
@@ -46,11 +45,6 @@ async function getWorker(lang) {
   return promise;
 }
 
-/**
- * 识别前的图像预处理。
- * Tesseract 对小字、低对比度的图识别很差，先放大 + 转灰度 + 拉伸对比度，
- * 印刷体能明显变好；失败就退回原图，不影响流程。
- */
 async function preprocess(blob) {
   try {
     const bitmap = await createImageBitmap(blob);

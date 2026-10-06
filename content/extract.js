@@ -1,4 +1,3 @@
-/* 段落提取：把页面正文拆成「可翻译的段落块」 */
 (function (root) {
   'use strict';
 
@@ -61,7 +60,6 @@
     return false;
   }
 
-  /** 向上找到最近的块级容器 */
   function blockContainer(textNode) {
     let el = textNode.parentElement;
     let depth = 0;
@@ -91,7 +89,6 @@
     return 'sibling';
   }
 
-  /* --------------------------------------------------------- 语言识别 */
 
   /* 有独立字符集的语言，直接按字判断（注意要带 g 标志，match 才会返回全部匹配） */
   const SCRIPT_RULES = [
@@ -114,7 +111,6 @@
     { lang: 'lo', re: /[\u0e80-\u0eff]/g }
   ];
 
-  /* 共用拉丁字母的语言，靠特征字符区分 */
   const LATIN_MARKS = [
     { lang: 'vi', re: /[ăâđêôơưạảấầẩẫậắằẳẵặẹẻẽếềểễệỉịọỏốồổỗộớờởỡợụủứừửữựỳỵỷỹ]/i },
     { lang: 'tr', re: /[ğış]/i },
@@ -129,7 +125,6 @@
     { lang: 'fr', re: /[àâçéèêëîïôûùÿœ]/i }
   ];
 
-  /* 拉丁语言的常用词，用来兜底判断 */
   const STOPWORDS = {
     en: ['the', 'and', 'of', 'to', 'is', 'are', 'was', 'were', 'that', 'this', 'with', 'for', 'from', 'have', 'has', 'been', 'will', 'would', 'can', 'could', 'should', 'they', 'their', 'there', 'which', 'when', 'what', 'your', 'you', 'not', 'but', 'all', 'more', 'other', 'into', 'than', 'then', 'them', 'these', 'its', 'about', 'because', 'while', 'still', 'just', 'only', 'in', 'it', 'be', 'by', 'a', 'an', 'on', 'at', 'or', 'as', 'if', 'we', 'do', 'no', 'so', 'up', 'out', 'my', 'me', 'he', 'she', 'our', 'who', 'how', 'why', 'any', 'each', 'both', 'such', 'too', 'very', 'now', 'here', 'some', 'also', 'over', 'after', 'before', 'between', 'under', 'during'],
     fr: ['le', 'la', 'les', 'de', 'des', 'du', 'un', 'une', 'et', 'est', 'que', 'qui', 'dans', 'pour', 'sur', 'avec', 'pas', 'plus', 'par', 'au', 'aux', 'ce', 'cette', 'sont', 'nous', 'vous', 'ils', 'elles', 'mais', 'comme', 'tout', 'se', 'ne', 'sa', 'son', 'ses'],
@@ -176,10 +171,6 @@
     return bestScore >= 0.12 ? best : '';
   }
 
-  /**
-   * 判断这一段是否已经是目标语言。
-   * 目标是英文，页面上的英文段落就跳过；目标是日文，日文段落就跳过，以此类推。
-   */
   function sameLanguage(text, targetLang) {
     if (!targetLang) return false;
     const target = String(targetLang).toLowerCase().split('-')[0];
@@ -189,11 +180,6 @@
     return detected === target;
   }
 
-  /**
-   * 提取可翻译段落
-   * @param {Element} scope 起始节点，默认 document.body
-   * @returns {Array<{id:number, el:Element, text:string, insertMode:string}>}
-   */
   function collect(scope) {
     const start = scope || document.body;
     if (!start) return [];
@@ -255,7 +241,6 @@
     return result;
   }
 
-  /** 取出当前视口内（以及上方已滚过）的段落下标 */
   function viewportFirst(segments) {
     const vh = window.innerHeight || 800;
     const near = [];

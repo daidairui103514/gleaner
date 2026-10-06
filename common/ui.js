@@ -1,6 +1,4 @@
-/* 通用 UI 组件：自定义下拉、滑块。options / popup 共用 */
 
-/* ------------------------------------------------------------ 自定义下拉 */
 
 function el(tag, className) {
   const node = document.createElement(tag);
@@ -8,10 +6,6 @@ function el(tag, className) {
   return node;
 }
 
-/**
- * 把一个容器变成下拉控件
- * config: { items: [{value, label, group, note}], value, placeholder, searchable, disabled, onChange }
- */
 export function createSelect(host, config) {
   const items = config.items || [];
   let value = config.value;
@@ -189,7 +183,6 @@ export function createSelect(host, config) {
   };
 }
 
-/** 把页面里所有原生 select 升级成自定义下拉 */
 export function upgradeSelects(scope) {
   const root = scope || document;
   root.querySelectorAll('select:not([data-ui-ready])').forEach(function (select) {
@@ -222,7 +215,6 @@ export function upgradeSelects(scope) {
   });
 }
 
-/** options 页每次重填 option 之后调用，重建下拉 */
 export function rebuildSelects(scope) {
   const root = scope || document;
   root.querySelectorAll('.ui-select').forEach(function (host) {
@@ -236,7 +228,6 @@ export function rebuildSelects(scope) {
   upgradeSelects(root);
 }
 
-/* ---------------------------------------------------------------- 滑块 */
 
 export function paintRange(input) {
   if (!input) return;
@@ -254,7 +245,6 @@ export function bindRanges(scope) {
     if (input.dataset.uiRange) return;
     input.dataset.uiRange = '1';
 
-    /* 约定：滑块 id 为 xxx 时，配套的数字输入框 id 是 v-xxx */
     const num = input.id ? document.getElementById('v-' + input.id) : null;
     if (num) {
       num.min = input.min;

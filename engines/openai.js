@@ -1,7 +1,3 @@
-/**
- * OpenAI 兼容接口（BYOK）
- * 适用于 DeepSeek / 通义千问 / Kimi / 智谱 / 硅基流动 / OpenRouter / 本地 Ollama 等。
- */
 
 const LENGTH_HINT = {
   1: '非常简短，只翻译核心含义',
@@ -98,7 +94,6 @@ async function chat(payload, cfg) {
       const body = await res.json();
       detail = (body && body.error && (body.error.message || body.error.code)) || '';
     } catch (e) {
-      /* 忽略解析失败 */
     }
     throw new Error('接口返回 HTTP ' + res.status + (detail ? '：' + detail : ''));
   }
@@ -139,7 +134,6 @@ export default {
     let parsed = parseArray(content, texts.length);
     if (parsed) return parsed;
 
-    // 模型没按格式返回时，退化为逐条翻译
     const out = [];
     for (let i = 0; i < texts.length; i++) {
       const single = {

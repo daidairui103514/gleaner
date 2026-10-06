@@ -1,4 +1,3 @@
-/* MyMemory 翻译记忆库：免费额度较高，作为免配置通道的备用选项。 */
 
 const ENDPOINT = 'https://api.mymemory.translated.net/get';
 const LIMIT = 480; // 接口对单段长度有限制

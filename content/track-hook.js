@@ -15,19 +15,15 @@
   const REQUEST = 'amber-subtitle-request';
   let lastKey = '';
   let busy = false;
-  /* 已经拿到的结果留一份：接收端可能比这个脚本晚加载，
-     那时它发个请求过来，我们直接重发，不用重新抓一遍 */
   let cached = null;
 
   function post(payload) {
     try {
       window.postMessage(Object.assign({ source: TAG }, payload), '*');
     } catch (e) {
-      /* 忽略 */
     }
   }
 
-  /* 出问题时能一眼看出卡在哪一步 */
   let lastStatus = '';
   function status(text) {
     if (text === lastStatus) return;
@@ -39,7 +35,6 @@
     return String(value == null ? '' : value).trim();
   }
 
-  /* ---------------------------------------------------- 轨道 → 时间轴 */
 
   /** YouTube json3：{ events: [{ tStartMs, dDurationMs, segs: [{ utf8 }] }] } */
   function parseYouTube(data) {
@@ -67,7 +62,6 @@
     return rows;
   }
 
-  /** B 站：{ body: [{ from, to, content }] }，from/to 单位是秒 */
   function parseBilibili(data) {
     const body = Array.isArray(data && data.body) ? data.body : [];
     return body
@@ -83,7 +77,6 @@
       });
   }
 
-  /** YouTube 的 XML 字幕格式（srv1 / srv3）：<text start="0" dur="2.5">内容</text> */
   function parseYouTubeXml(xml) {
     const rows = [];
     try {
@@ -101,26 +94,18 @@
         rows.push({ start: start, end: start + dur, text: value });
       }
     } catch (e) {
-      /* 忽略 */
     }
     return rows;
   }
 
-  /**
-   * 自动字幕（ASR）是「滚动累积」的：每一条都把前面几条的内容带在身上。
-   * 直接拼起来就会出现「我买了这家店，我买了这家店，而且…」这种重复。
-   * 这里把每条前面重复的部分去掉，只留新增的。
-   */
   function dropRollingPrefix(rows) {
     const out = [];
     rows.forEach(function (row) {
       const prev = out[out.length - 1];
       if (prev && row.text) {
         if (row.text === prev.text) {
-          /* 完全相同：滚动字幕的时间是紧挨着的，隔得远说明是真的说了两遍 */
           if (row.start - prev.end < 1.5) return;
         } else if (row.text.indexOf(prev.text) === 0) {
-          /* 可能连着累积了好几层，一直剥到不是重复开头为止 */
           let extra = row.text.slice(prev.text.length).trim();
           while (extra && extra.indexOf(prev.text) === 0) {
             const next = extra.slice(prev.text.length).trim();
@@ -156,7 +141,6 @@
     return out;
   }
 
-  /* ------------------------------------------------------ YouTube 取轨 */
 
   function youtubeResponse() {
     if (window.ytInitialPlayerResponse) return window.ytInitialPlayerResponse;
@@ -187,7 +171,6 @@
     }
   }
 
-  /* ----------------------------------------------------- Bilibili 取轨 */
 
   function bilibiliTracks(data) {
     let list = [];
@@ -212,9 +195,7 @@
       });
   }
 
-  /* -------------------------------------------------------- 拉取与派发 */
 
-  /** 拿到内容后按实际格式解析 —— 不假设它一定是 json3 */
   function parseAny(site, raw) {
     const text = String(raw || '').trim();
     if (!text) return [];
@@ -229,8 +210,6 @@
     else if (head === '<') rows = parseYouTubeXml(text);
     if (!rows.length) return [];
 
-    /* 无条件剥离重复前缀：正常字幕的第一条不会是下一条的开头，
-       所以对它们没有副作用；而滚动累积的字幕正需要这一步。 */
     rows = dropRollingPrefix(rows);
     return mergeRows(rows);
   }
@@ -243,7 +222,6 @@
 
   async function fetchTimeline(site, track) {
     if (site === 'youtube') {
-      /* 先试 json3；拿回来是空的就退回原始地址（可能是 srv3/XML） */
       const jsonUrl =
         track.url + (track.url.indexOf('?') === -1 ? '?' : '&') + 'fmt=json3';
 
@@ -273,7 +251,6 @@
   async function handleTracks(site, tracks) {
     if (busy || !tracks || !tracks.length) return;
 
-    /* 优先人工字幕，其次自动生成 */
     const manual = tracks.find(function (t) {
       return !t.auto;
     });
@@ -301,8 +278,6 @@
       status('已就绪 ' + rows.length + ' 条（' + (track.lang || '?') + '）');
       post(cached);
 
-      /* 接收端是 document_idle 才注入的，可能还没起来。
-         隔几秒再补发两次，确保它一定收得到。 */
       [1200, 4000].forEach(function (delay) {
         setTimeout(function () {
           if (cached) post(cached);
@@ -316,25 +291,21 @@
     }
   }
 
-  /* 接收端加载完会来问一次，有缓存就直接给它 */
   window.addEventListener('message', function (e) {
     if (e.source !== window) return;
     if (!e.data || e.data.source !== REQUEST) return;
     if (cached) post(cached);
   });
 
-  /* ------------------------------------------------------------ 拦截 */
 
   function kindOf(url) {
     const u = String(url || '');
-    /* 和简约翻译一致的宽松匹配 */
     if (u.indexOf('timedtext') !== -1) return 'youtube-timedtext';
     if (/youtubei\/v1\/player/.test(u)) return 'youtube';
     if (/\/x\/player\/(wbi\/)?v2/.test(u)) return 'bilibili';
     return '';
   }
 
-  /** 从 timedtext 请求里直接拿现成的字幕地址（截掉原有 fmt，重新指定 json3） */
   function trackFromTimedtext(rawUrl) {
     try {
       const u = new URL(rawUrl, location.origin);
@@ -368,11 +339,6 @@
     }
   }
 
-  /**
-   * 直接拿播放器请求回来的响应体建时间轴。
-   * timedtext 的地址带时效签名，自己再 fetch 一遍会拿到空内容 ——
-   * 所以拦截到响应就地解析，不重新请求。
-   */
   function adoptRawBody(raw, url) {
     if (timedtextDone) return;
     const text = String(raw || '').trim();
@@ -385,7 +351,6 @@
       kind = u.searchParams.get('kind') || '';
       lang = u.searchParams.get('lang') || '';
     } catch (e) {
-      /* 忽略 */
     }
 
     let rows;
@@ -412,7 +377,6 @@
     if (kind === 'youtube') {
       handleTracks('youtube', youtubeTracks(data));
     } else if (kind === 'youtube-timedtext') {
-      /* data 是拦截到的响应文本本身 */
       adoptRawBody(data, url);
     } else if (kind === 'bilibili') {
       handleTracks('bilibili', bilibiliTracks(data));
@@ -443,7 +407,6 @@
               })
               .catch(function () {});
           } catch (e) {
-            /* 忽略 */
           }
           return res;
         }
@@ -456,7 +419,6 @@
             })
             .catch(function () {});
         } catch (e) {
-          /* 忽略 */
         }
         return res;
       });
@@ -477,7 +439,6 @@
       try {
         this.__amberUrl = url;
       } catch (e) {
-        /* 忽略 */
       }
       return originalOpen.apply(this, arguments);
     };
@@ -487,24 +448,20 @@
         const kind = kindOf(this.__amberUrl);
         if (kind) {
           this.addEventListener('load', function () {
-            /* 响应体就在手边，直接用，别重新请求 */
             if (kind === 'youtube-timedtext') {
               try {
                 adoptRawBody(this.responseText, this.responseURL || this.__amberUrl);
               } catch (e) {
-                /* 忽略 */
               }
               return;
             }
             try {
               dispatch(kind, JSON.parse(this.responseText), this.__amberUrl);
             } catch (e) {
-              /* 忽略 */
             }
           });
         }
       } catch (e) {
-        /* 忽略 */
       }
       return originalSend.apply(this, arguments);
     };
@@ -512,12 +469,10 @@
     proto.__amberWrapped = true;
   }
 
-  /* ------------------------------------------------------------ 启动 */
 
   wrapFetch();
   wrapXhr();
 
-  /* YouTube 首次进入直接读全局变量；SPA 换视频靠下面的监听 */
   function tryYouTube() {
     const response = youtubeResponse();
     if (!response) return false;
@@ -550,7 +505,6 @@
     });
   });
 
-  /* B 站换 P / 换视频也会重新请求 player/v2，上面已经拦到；这里补一次首屏 */
   setTimeout(function () {
     tryYouTube();
   }, 1500);

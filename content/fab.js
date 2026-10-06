@@ -1,5 +1,3 @@
-/* 页面悬浮入口：圆形球，点击展开控制面板。
-   二级列表（语言 / 引擎）在主面板旁边单独弹出，主面板尺寸不变。 */
 (function (root) {
   'use strict';
 
@@ -251,7 +249,6 @@
 
   const MODE_LABEL = { bilingual: '双语', translation: '仅译文', source: '仅原文' };
 
-  /* ------------------------------------------------------------ 引擎列表 */
 
   function profiles() {
     const cfg = (S.state.settings.engines || {}).openai || {};
@@ -304,7 +301,6 @@
       .replace(/"/g, '&quot;');
   }
 
-  /* ---------------------------------------------------------------- 构建 */
 
   function build() {
     if (host) return;
@@ -375,7 +371,6 @@
     wrap.style.bottom = (isFinite(bottom) ? bottom : 22) + 'px';
   }
 
-  /* ------------------------------------------------------------ 主面板 */
 
   function translatedCount() {
     return (S.state.segments || []).filter(function (seg) {
@@ -452,7 +447,6 @@
     }
   }
 
-  /* ---------------------------------------------------------- 二级浮层 */
 
   function renderSub() {
     if (!sub || !subKind) return;
@@ -539,7 +533,6 @@
     const panelOpenRight = panel.classList.contains('right');
     const offset = 50 + PANEL_WIDTH + 8;
 
-    /* 浮层出现在主面板的外侧，不挡住主面板 */
     sub.classList.toggle('right', panelOpenRight);
     sub.classList.toggle('left', !panelOpenRight);
 
@@ -553,7 +546,6 @@
     sub.style.animationName = panelOpenRight ? 'sub-in' : 'sub-in-left';
   }
 
-  /* ------------------------------------------------------------ 事件绑定 */
 
   let startX = 0;
   let startY = 0;
@@ -674,7 +666,6 @@
   }
 
   async function onSaveSite() {
-    /* 已经存过就先问一句，免得手滑把原来那套覆盖掉 */
     if (S.state.hasSiteConfig) {
       const ok = window.confirm('「' + S.state.domain + '」已经存过一套配置，用当前的覆盖它吗？');
       if (!ok) return;
@@ -740,14 +731,12 @@
     }, 260);
   }
 
-  /* ------------------------------------------------------------ 面板开合 */
 
   function placePanel() {
     const rect = ball.getBoundingClientRect();
     const spaceRight = window.innerWidth - rect.right;
     const spaceLeft = rect.left;
 
-    /* 哪边放得下就往哪边展开，两边都放不下就选宽敞的一边 */
     let openRight;
     if (spaceRight >= PANEL_WIDTH + 16) openRight = true;
     else if (spaceLeft >= PANEL_WIDTH + 16) openRight = false;
@@ -797,7 +786,6 @@
     else openPanel();
   }
 
-  /* -------------------------------------------------------------- 状态 */
 
   function sync() {
     if (!ball) return;

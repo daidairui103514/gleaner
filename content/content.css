@@ -17,7 +17,6 @@
   --amber-border-style: solid;
 }
 
-/* ------------------------------------------------------------- 译文节点 */
 
 html[data-amber-active] span.amber-tr {
   display: block !important;
@@ -64,7 +63,6 @@ html[data-amber-active] dd > span.amber-tr:last-child {
   margin-bottom: 0 !important;
 }
 
-/* --------------------------------------------------------------- 加载态 */
 
 html[data-amber-active] span.amber-tr-loading {
   border-left-color: transparent !important;
@@ -92,7 +90,6 @@ html[data-amber-active] span.amber-tr-loading > i.amber-skeleton {
   100% { background-position: 0 50%; }
 }
 
-/* --------------------------------------------------------------- 错误态 */
 
 html[data-amber-active] span.amber-tr-error {
   color: #d9534f !important;
@@ -104,19 +101,15 @@ html[data-amber-active] span.amber-tr-error {
   user-select: none;
 }
 
-/* ------------------------------------------------------------- 显示模式 */
 
-/* 仅原文：藏起所有译文 */
 html.amber-mode-source span.amber-tr {
   display: none !important;
 }
 
-/* 仅译文：藏起原文块 */
 html.amber-mode-translation .amber-src-block {
   display: none !important;
 }
 
-/* 仅译文：译文在原文块内部的情况 */
 html.amber-mode-translation .amber-with-inner-tr {
   font-size: 0 !important;
   line-height: 0 !important;
@@ -132,7 +125,6 @@ html.amber-mode-translation .amber-with-inner-tr > span.amber-tr {
   margin-bottom: 0 !important;
 }
 
-/* --------------------------------------------------------------- 悬停译文 */
 
 html[data-amber-active] span.amber-tr-hover {
   display: block !important;
@@ -149,7 +141,6 @@ html[data-amber-active] span.amber-tr-hover {
   word-break: break-word !important;
 }
 
-/* --------------------------------------------------------------- 打印 */
 
 @media print {
   html.amber-mode-translation .amber-src-block {

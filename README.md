@@ -13,6 +13,29 @@ Manifest V3 · 无需构建 · 打开即用 · 默认引擎免注册免密钥
 
 ---
 
+## 界面一览
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/options-subtitle.png" alt="设置页 · 视频字幕分区"></td>
+<td width="50%"><img src="docs/screenshots/fab-panel.png" alt="页面右下角的悬浮面板"></td>
+</tr>
+<tr>
+<td align="center"><sub>设置页 · 视频字幕独立分区</sub></td>
+<td align="center"><sub>页面浮层 · 翻译 / 语言 / 引擎都在里面</sub></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/pdf-reader.png" alt="PDF 双语阅读器"></td>
+<td><img src="docs/screenshots/popup.png" alt="工具栏弹窗"></td>
+</tr>
+<tr>
+<td align="center"><sub>PDF 逐段双语对照</sub></td>
+<td align="center"><sub>工具栏弹窗 · 含界面配色</sub></td>
+</tr>
+</table>
+
+---
+
 ## 功能
 
 **视频字幕**

@@ -1,5 +1,3 @@
-/* 划词翻译气泡：选中文字 -> 浮标 / 直接出译文。
-   支持拖动、切换引擎、完整查看原文与译文、钉住不消失。 */
 (function (root) {
   'use strict';
 
@@ -117,9 +115,7 @@
 .engine-pop button.on { background: rgba(var(--accent-rgb), 0.24); color: var(--amber-soft); }
 `;
 
-  /* ---------------------------------------------------------------- 构建 */
 
-  /** 把当前强调色挂到宿主上，供 shadow 里的 CSS 变量使用 */
   function applyAccent() {
     if (!host) return;
     const accent = S.accentColor();
@@ -167,7 +163,6 @@
     icon = shadow.querySelector('.icon');
     bubble = shadow.querySelector('.bubble');
 
-    /* 划词气泡的配色跟着设置走 */
     applyAccent();
 
     ['mousedown', 'mouseup', 'click', 'pointerdown', 'pointerup'].forEach(function (name) {
@@ -202,7 +197,6 @@
     }, true);
   }
 
-  /* ------------------------------------------------------------ 引擎列表 */
 
   function engineList() {
     const list = BUILTIN_ENGINES.slice();
@@ -268,11 +262,9 @@
     if (res && res.ok && res.data) S.state.settings = res.data;
     refreshEngineButton();
 
-    /* 换引擎后用新引擎重译当前这段 */
     if (currentText) showBubble(currentText, lastRect);
   }
 
-  /* -------------------------------------------------------------- 交互 */
 
   async function onBarClick(e) {
     const btn = e.target.closest('button');
@@ -314,11 +306,9 @@
       speechSynthesis.cancel();
       speechSynthesis.speak(utter);
     } catch (e) {
-      /* 浏览器不支持语音合成 */
     }
   }
 
-  /* -------------------------------------------------------------- 拖动 */
 
   let dragging = false;
   let dragMoved = false;
@@ -358,7 +348,6 @@
     dragging = false;
   }
 
-  /* ---------------------------------------------------------- 定位与显示 */
 
   function positionAt(rect, node) {
     const layer = shadow.querySelector('.layer');
@@ -422,7 +411,6 @@
     closeEnginePop();
   }
 
-  /* -------------------------------------------------------------- 入口 */
 
   function onSelection() {
     const sel = window.getSelection();

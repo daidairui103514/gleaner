@@ -1,6 +1,4 @@
-/* 通用 UI 组件样式：自定义下拉 + 滑块 */
 
-/* ------------------------------------------------------------ 下拉框 */
 
 .ui-select {
   position: relative;
@@ -199,7 +197,6 @@
   text-align: center;
 }
 
-/* -------------------------------------------------------------- 滑块 */
 
 .num-wrap {
   display: flex;
@@ -284,7 +281,6 @@ input[type='range']::-moz-range-thumb {
   border: 2px solid var(--on-amber);
 }
 
-/* ---------------------------------------------------------- 数值输入框 */
 
 input.val {
   flex: 0 0 64px;
@@ -309,7 +305,6 @@ input.val:focus {
   outline: none;
   border-color: rgba(var(--accent-rgb), 0.75);
   background: var(--surface-2, #262319);
-  /* 之前是金色，和边框、数字叠在一起基本看不清 */
   color: var(--text, #ede5d5);
 }
 
@@ -323,10 +318,6 @@ input.val[type='number'] {
   -moz-appearance: textfield;
 }
 
-/* ------------------------------------------------ 光标与选中
-
-   界面元素默认会带文本光标（I 形），点到标题、说明文字上会闪一下，
-   看着像可以打字其实并不能。这里统一收掉，输入框保留。 */
 
 .nav,
 .group,

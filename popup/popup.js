@@ -43,7 +43,6 @@ const $ = function (id) {
   return document.getElementById(id);
 };
 
-/* 弹窗也是独立页面，强调色得自己挂 */
 const ACCENTS = {
   amber: { main: '#e39b2c', soft: '#fac775', fill: '#a8681a', on: '#1a1508', rgb: '186, 117, 23' },
   teal: { main: '#4bd6b4', soft: '#8ff0d8', fill: '#17705c', on: '#04170f', rgb: '23, 112, 92' },
@@ -132,7 +131,6 @@ function tip(message) {
   }, 3000);
 }
 
-/* ------------------------------------------------------------------ 渲染 */
 
 function render() {
   const busy = isBusy();
@@ -248,7 +246,6 @@ function showView(id) {
   });
 }
 
-/* ------------------------------------------------------------------ 启动 */
 
 async function init() {
   const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -282,7 +279,6 @@ async function init() {
   render();
   renderSiteView();
 
-  /* 翻译中打开弹窗时，让进度动起来 */
   pollTimer = setInterval(async function () {
     const now = await msg(V.DO_STATE_QUERY);
     if (!now || !now.ok || !now.data) return;
@@ -297,7 +293,6 @@ window.addEventListener('unload', function () {
   clearInterval(pollTimer);
 });
 
-/* ------------------------------------------------------------------ 交互 */
 
 $('toggle').addEventListener('click', async function () {
   const wasTranslated = state.translated;
@@ -339,7 +334,6 @@ $('font').addEventListener('input', function () {
   }, 240);
 });
 
-/* 色板 */
 function markAccents(name) {
   const el = $('accents');
   if (!el) return;
@@ -363,7 +357,6 @@ $('accents').addEventListener('click', async function (e) {
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     if (tabs[0]) await msg(V.SETTINGS_CHANGED, { settings: settings });
   } catch (err) {
-    /* 忽略：当前标签页可能没有内容脚本 */
   }
 });
 
@@ -409,7 +402,6 @@ $('engine-list').addEventListener('click', async function (e) {
   }
 });
 
-/* 本页设置 */
 
 $('site-config').addEventListener('click', function () {
   renderSiteView();

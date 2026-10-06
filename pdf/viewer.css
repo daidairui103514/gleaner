@@ -112,7 +112,6 @@ select:hover {
   filter: none;
 }
 
-/* 翻页控件做成一个整体胶囊：内部元素高度统一，不会再一高一低 */
 .pager {
   display: flex;
   align-items: center;
@@ -212,7 +211,6 @@ option {
   transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
 
-/* 左侧小圆点：翻译中会呼吸，完成后常亮 */
 .status::before {
   content: '';
   flex: 0 0 6px;
@@ -303,7 +301,6 @@ main {
   padding-left: 10px;
 }
 
-/* 原文在上、字号更大；译文在下、改用琥珀色拉开层次 */
 .seg .src {
   font-size: 14px;
   line-height: 1.58;

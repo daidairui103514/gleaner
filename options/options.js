@@ -19,7 +19,6 @@ let settings = null;
 let saveTimer = null;
 let toastTimer = null;
 
-/* --------------------------------------------------------------- 路径工具 */
 
 function getPath(obj, path) {
   return path.split('.').reduce(function (acc, key) {
@@ -37,7 +36,6 @@ function setPath(obj, path, value) {
   cur[keys[keys.length - 1]] = value;
 }
 
-/* ---------------------------------------------------------------- 保存 */
 
 function markSaving() {
   const node = $('save-state');
@@ -79,14 +77,12 @@ function scheduleCommit(needPreview) {
   saveTimer = setTimeout(commit, 280);
 }
 
-/* ------------------------------------------------------------ 控件绑定表 */
 
 const VAL = 'value';
 const NUM = 'number';
 const CHK = 'checked';
 
 const CONTROLS = [
-  /* 视频字幕 */
   { id: 'subtitle-enabled', path: 'subtitle.enabled', type: CHK },
   { id: 'subtitle-display', path: 'subtitle.display', type: VAL },
   { id: 'subtitle-blur', path: 'subtitle.blur', type: CHK },
@@ -129,10 +125,8 @@ const CONTROLS = [
   { id: 'cache-days', path: 'cache.maxAgeDays', type: NUM, label: 'v-cacheDays', suffix: ' 天' }
 ];
 
-/* ---------------------------------------------------------------- 渲染 */
 
 function langOptionLabel(item) {
-  /* 中文的 nativeName 和中文名基本重复，只显示中文名 */
   if (/^zh/.test(item.code) || item.code === 'yue' || item.code === 'lzh') return item.zh;
   return item.zh + '（' + item.native + '）';
 }
@@ -166,7 +160,6 @@ function fillLangSelect(select, withAuto) {
 }
 
 function fillEngineSelect() {
-  /* 引擎选择已经改成卡片列表，这里只在旧结构还存在时才填 */
   const select = $('engine');
   if (!select) return;
   select.innerHTML = '';
@@ -228,7 +221,6 @@ function render() {
   refreshCacheStat();
 }
 
-/* ---------------------------------------------------------- 引擎与配置 */
 
 const BUILTIN_ENGINES = [
   { id: 'bing', name: '必应翻译', desc: '免注册、免密钥，国内可直连', note: '免配置' },
@@ -311,7 +303,6 @@ const FREEFORM_ENGINES = {
   builtin: '使用浏览器内置的离线模型，不需要配置，受地区与硬件限制。'
 };
 
-/** 下面这块只在选中某个引擎时才出现 */
 function renderEngineDetail() {
   const host = $('engine-detail');
   if (!host) return;
@@ -421,7 +412,6 @@ function applyTheme() {
 
 function syncColorPanels() {
   const mode = $('colorMode').value;
-  /* 预设和「跟随原文」都不用取色器，只有自定义才显示 */
   $('amber-colors').hidden = true;
   $('custom-colors').hidden = mode !== 'custom';
 }
@@ -548,7 +538,6 @@ async function refreshCacheStat() {
   }
 }
 
-/* ---------------------------------------------------------------- 绑定 */
 
 function bindControls() {
   CONTROLS.forEach(function (control) {
@@ -661,7 +650,6 @@ async function testProfile(id) {
   }
 
   try {
-    /* 先把还没保存的编辑写进去，再测 */
     await commit();
     const res = await chrome.runtime.sendMessage({
       type: 'amber:translate',
@@ -732,7 +720,6 @@ function bindEngineControls() {
       markSaving();
     });
 
-    /* 离开输入框后刷新引擎列表里的名称 */
     host.addEventListener('focusout', function () {
       clearTimeout(focusTimer);
       focusTimer = setTimeout(function () {
@@ -758,7 +745,6 @@ function bindEngineControls() {
       };
       cfg.profiles.push(profile);
       cfg.activeId = profile.id;
-      /* 新建后直接切过去，下面的配置区就会显示它的表单 */
       settings.engine = 'openai:' + profile.id;
       renderEngineList();
       renderEngineDetail();
@@ -910,7 +896,6 @@ function importSettings() {
   input.click();
 }
 
-/* ---------------------------------------------------------------- 启动 */
 
 async function init() {
   try {

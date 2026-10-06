@@ -4,7 +4,6 @@
  */
 const ENDPOINT = 'https://translate.googleapis.com/translate_a/single';
 
-/** 谷歌的语言代码与微软略有差异 */
 function toGoogleCode(code) {
   if (!code) return 'auto';
   const map = {

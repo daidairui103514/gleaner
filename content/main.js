@@ -1,4 +1,3 @@
-/* 主控制器：翻译流程编排、消息响应、自动翻译判断 */
 (function (root) {
   'use strict';
 
@@ -12,7 +11,6 @@
   const pendingMap = new Map();
   let errorNotified = false;
 
-  /* ------------------------------------------------------------ 视口排队 */
 
   function setupObserver(segments) {
     teardownObserver();
@@ -48,9 +46,7 @@
     pendingMap.clear();
   }
 
-  /* ---------------------------------------------------------- 翻译执行 */
 
-  /** 不同引擎的批量能力差别很大：能一次吞多段的就多给，逐段翻译的少给 */
   function batchLimit() {
     const engine = state.settings.engine;
     if (engine === 'openai' || engine === 'microsoft') return 12;
@@ -78,7 +74,6 @@
     return out;
   }
 
-  /* 每次开始翻译或还原都会换一个 token，让还在路上的旧任务自动作废 */
   let runToken = 0;
 
   async function runSegments(segments) {
@@ -149,7 +144,6 @@
     root.AmberFab.setProgress(total ? done / total : 0, done, total);
   }
 
-  /* ---------------------------------------------------------- 页面翻译 */
 
   async function translatePage() {
     if (state.running) return;
@@ -188,7 +182,6 @@
 
     if (farSegments.length) setupObserver(farSegments);
 
-    /* 若首屏全部失败，给一次明确的提示 */
     const failed = segments.filter(function (seg) {
       return !seg.done;
     }).length;
@@ -233,7 +226,6 @@
     return mode;
   }
 
-  /* -------------------------------------------------------------- 导出 */
 
   async function exportMarkdown() {
     if (!state.segments.length) {
@@ -258,7 +250,6 @@
     }
   }
 
-  /* --------------------------------------------------------- 自动翻译 */
 
   function matchDomain(domain, pattern) {
     if (!pattern) return false;
@@ -283,11 +274,9 @@
   }
 
   function shouldAutoTranslate() {
-    /* 带 ?amber=auto 的链接打开即翻译，方便做演示页和分享 */
     try {
       if (new URLSearchParams(location.search).get('amber') === 'auto') return true;
     } catch (e) {
-      /* 忽略解析失败 */
     }
 
     const auto = state.settings.auto || {};
@@ -312,7 +301,6 @@
     return false;
   }
 
-  /* ---------------------------------------------------------- 消息处理 */
 
   chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     if (!message || typeof message.type !== 'string') return false;
@@ -391,7 +379,6 @@
     }
   });
 
-  /* -------------------------------------------------------------- 启动 */
 
   async function boot() {
     await S.loadSettings();

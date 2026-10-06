@@ -1,4 +1,3 @@
-/* 由 lib/gen_langs.py 生成，请勿手工编辑。数据源：微软翻译官方语言表 */
 (function (root) {
   'use strict';
 
@@ -181,7 +180,6 @@
     popular: POPULAR_CODES,
     normalize: normalize,
     label: label,
-    /** 源语言下拉：自动检测在最前 */
     sourceOptions: function () { return [SOURCE_AUTO].concat(LIST); },
   };
 })(typeof globalThis !== 'undefined' ? globalThis : this);

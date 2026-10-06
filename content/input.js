@@ -1,4 +1,3 @@
-/* 输入框翻译：在任意输入框连续按 3 次空格，把内容翻成目标语言 */
 (function (root) {
   'use strict';
 
@@ -50,7 +49,6 @@
     fireInput(el);
   }
 
-  /** 删除光标前的 n 个空格 */
   function trimTrailingSpaces(el, n) {
     if (isRich(el)) {
       for (let i = 0; i < n; i++) document.execCommand('delete', false, null);

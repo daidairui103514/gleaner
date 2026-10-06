@@ -1,7 +1,3 @@
-/**
- * 微软翻译官方 API（Azure Translator）
- * 需要用户在 Azure 申请 Key；F0 免费层每月 200 万字符。
- */
 
 const ENDPOINT = 'https://api.cognitive.microsofttranslator.com/translate';
 const MAX_ITEMS = 25;

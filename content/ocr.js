@@ -1,4 +1,3 @@
-/* 图片文字翻译：右键图片 -> 识别 -> 翻译 -> 结果面板 */
 (function (root) {
   'use strict';
 
@@ -64,7 +63,6 @@
 .hint.error { color: #F7C1C1; }
 `;
 
-  /** 面板配色跟着设置走 */
   function applyAccent() {
     if (!host) return;
     const accent = S.accentColor();
@@ -122,7 +120,6 @@
       }
     });
 
-    /* 面板可以拖着走 */
     (function draggable() {
       const panel = shadow.querySelector('.panel');
       const head = shadow.querySelector('.head');
@@ -148,7 +145,6 @@
         try {
           head.setPointerCapture(e.pointerId);
         } catch (err) {
-          /* 忽略 */
         }
         e.preventDefault();
         e.stopPropagation();
@@ -252,7 +248,6 @@
       const dst = shadow.querySelector('.dst');
       if (!dst) return;
 
-      /* 译文和原文一字不差，基本可以断定引擎没认出这段文字 */
       if (!value || value === text) {
         dst.className = 'dst warn';
         dst.textContent =
@@ -275,7 +270,6 @@
     S.on(function (event) {
       if (event === 'settings') applyAccent();
     });
-    /* 图片本身的悬停翻译入口由右键菜单触发，这里只做兜底的热键提示 */
   }
 
   root.AmberOcr = {

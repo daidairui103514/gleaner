@@ -37,10 +37,6 @@ html[data-theme='light'] {
   --accent-rgb: 154, 91, 6;
 }
 
-/* ------------------------------------------------ 界面强调色（可切换）
-
-   只覆盖四个关键变量，其余沿用所在主题。
-   rgba(var(--accent-rgb), x) 的写法让所有淡色底、边框一起跟着换。 */
 
 html[data-theme='dark'][data-accent='teal'] {
   --amber: #4bd6b4;
@@ -110,7 +106,6 @@ html[data-theme='light'][data-accent='slate'] {
   box-sizing: border-box;
 }
 
-/* hidden 属性优先级要高过 .row2 / .banner 之类的 display 规则 */
 [hidden] {
   display: none !important;
 }
@@ -126,7 +121,6 @@ html[data-theme='light'][data-accent='slate'] {
   border-bottom-color: var(--amber);
 }
 
-/* 右下角的 GitHub 图标 */
 .github-fab {
   position: fixed;
   right: 22px;
@@ -155,7 +149,6 @@ html[data-theme='light'][data-accent='slate'] {
   display: block;
 }
 
-/* 侧边栏底部的强调色选择 */
 .accent-picker {
   display: flex;
   gap: 7px;
@@ -174,7 +167,6 @@ html[data-theme='light'][data-accent='slate'] {
   transition: transform 0.14s ease, border-color 0.14s ease;
 }
 
-/* 悬停时即时显示颜色名 —— 原生 title 要等一两秒，太慢 */
 .accent-picker button::after {
   content: attr(title);
   position: absolute;
@@ -240,7 +232,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ------------------------------------------------------------ 外壳布局 */
 
 .shell {
   display: grid;
@@ -354,7 +345,6 @@ main {
   min-width: 0;
 }
 
-/* 所有内容统一居中，左右留白对称，不会只空右边 */
 main > section,
 main > .banner,
 main > .save-state {
@@ -371,7 +361,6 @@ main > .save-state {
   }
 }
 
-/* ------------------------------------------------------------ 顶部提示 */
 
 .banner {
   display: flex;
@@ -414,7 +403,6 @@ main > .save-state {
   background: rgba(var(--accent-rgb), 0.16);
 }
 
-/* ------------------------------------------------------------ 保存状态 */
 
 .save-state {
   display: block;
@@ -429,7 +417,6 @@ main > .save-state {
   color: var(--amber-soft);
 }
 
-/* ------------------------------------------------------------ 区块标题 */
 
 section h3 {
   margin: 0 0 7px;
@@ -460,7 +447,6 @@ section .sub {
   letter-spacing: 0.02em;
 }
 
-/* ------------------------------------------------------------ 表单控件 */
 
 .field {
   margin-bottom: 15px;
@@ -562,7 +548,6 @@ kbd {
   padding: 2px 6px;
 }
 
-/* ------------------------------------------------------------ 行式设置 */
 
 .line {
   display: flex;
@@ -611,7 +596,6 @@ kbd {
   font-variant-numeric: tabular-nums;
 }
 
-/* 开关 */
 .switch-wrap {
   display: flex;
   align-items: center;
@@ -660,7 +644,6 @@ kbd {
   color: var(--text-3);
 }
 
-/* ------------------------------------------------------------ 按钮 */
 
 .row-actions {
   display: flex;
@@ -704,7 +687,6 @@ kbd {
   border-color: rgba(226, 75, 74, 0.45);
 }
 
-/* ------------------------------------------------------------ 样式预览 */
 
 .previews {
   display: grid;
@@ -749,7 +731,6 @@ kbd {
   padding-left: 10px;
 }
 
-/* ------------------------------------------------------------ 杂项 */
 
 .keys {
   display: flex;
@@ -859,7 +840,6 @@ kbd {
   color: var(--text-3);
 }
 
-/* ------------------------------------------------------------ 引擎列表 */
 
 .engine-list {
   display: flex;
@@ -940,7 +920,6 @@ kbd {
   color: var(--amber-soft);
 }
 
-/* -------------------------------------------------------- 引擎配置详情 */
 
 .detail-card {
   padding: 15px;
@@ -1121,7 +1100,6 @@ kbd {
   font-weight: 500;
 }
 
-/* ------------------------------------------------------------ 窄屏 */
 
 @media (max-width: 880px) {
   .shell {

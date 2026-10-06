@@ -1,4 +1,3 @@
-/* 动态内容：页面翻译开启后，自动补翻新插入的内容（SPA / 无限滚动 / 聊天流） */
 (function (root) {
   'use strict';
 
@@ -80,7 +79,6 @@
         await root.AmberMain.runSegments(fresh);
       }
     } catch (e) {
-      /* 单次补翻失败不影响后续 */
     } finally {
       processing = false;
       if (queue.length) schedule();

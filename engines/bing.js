@@ -1,9 +1,3 @@
-/**
- * 必应翻译（免注册免密钥，国内可直连）
- *
- * 流程：先取 translator 页面，解析 IG / IID 与防滥用令牌，再调 ttranslatev3。
- * 令牌有效期约 1 小时，过期自动重新获取。
- */
 
 const HOME = 'https://cn.bing.com/translator';
 const API = 'https://cn.bing.com/ttranslatev3';
@@ -123,7 +117,6 @@ async function translateOne(text, from, to) {
   try {
     return await callApi(text, from, to, s);
   } catch (err) {
-    /* 令牌过期或被限流时，刷新会话再试一次 */
     if (err.code === 205 || err.code === 401 || /错误码/.test(err.message)) {
       const fresh = await getSession(true);
       return callApi(text, from, to, fresh);

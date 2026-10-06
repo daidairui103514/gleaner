@@ -1,4 +1,3 @@
-/* 翻译结果缓存（IndexedDB），按「引擎 + 语言对 + 原文哈希」存取 */
 
 const DB_NAME = 'amber-translate';
 const DB_VERSION = 1;

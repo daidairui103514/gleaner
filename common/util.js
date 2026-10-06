@@ -1,4 +1,3 @@
-/* 通用工具函数：content / background / popup 共用 */
 (function (root) {
   'use strict';
 
@@ -66,7 +65,6 @@
     return LATIN_WORD.test(text);
   }
 
-  /** 常见无需翻译的内容：纯数字、符号、URL、代码样式 */
   function isTranslatableText(text) {
     var t = text.trim();
     if (!t || t.length < 2) return false;
@@ -81,7 +79,6 @@
     return true;
   }
 
-  /** 按句子边界切分超长文本 */
   function splitSentences(text, maxLen) {
     maxLen = maxLen || 1200;
     if (text.length <= maxLen) return [text];
@@ -114,7 +111,6 @@
     });
   }
 
-  /** 把待翻译文本打成批次 */
   function makeBatches(items, maxCount, maxChars) {
     maxCount = maxCount || 20;
     maxChars = maxChars || 4000;
@@ -153,7 +149,6 @@
     return Math.min(Math.max(value, min), max);
   }
 
-  /** 简易并发池 */
   function pool(tasks, limit) {
     var results = new Array(tasks.length);
     var index = 0;
