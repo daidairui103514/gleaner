@@ -410,7 +410,7 @@ chrome.commands.onCommand.addListener(async function (command, tab) {
 async function setupMenus() {
   await chrome.contextMenus.removeAll();
   chrome.contextMenus.create({
-    id: 'amber-translate-page',
+    id: 'gleaner-page',
     title: '拾穗译：翻译此页',
     contexts: ['page']
   });
@@ -425,17 +425,17 @@ async function setupMenus() {
     contexts: ['page', 'selection', 'image']
   });
   chrome.contextMenus.create({
-    id: 'amber-translate-selection',
+    id: 'gleaner-selection',
     title: '拾穗译：翻译「%s」',
     contexts: ['selection']
   });
   chrome.contextMenus.create({
-    id: 'amber-translate-input',
+    id: 'gleaner-input',
     title: '拾穗译：翻译并替换输入框内容',
     contexts: ['editable']
   });
   chrome.contextMenus.create({
-    id: 'amber-translate-image',
+    id: 'gleaner-image',
     title: '拾穗译：识别并翻译图片文字',
     contexts: ['image']
   });
@@ -454,15 +454,15 @@ chrome.contextMenus.onClicked.addListener(async function (info, tab) {
   }
   await ensureContent(tab.id);
 
-  if (info.menuItemId === 'amber-translate-page') {
+  if (info.menuItemId === 'gleaner-page') {
     sendToTab(tab.id, { type: M.DO_TRANSLATE });
   } else if (info.menuItemId === 'amber-restore-page') {
     sendToTab(tab.id, { type: M.DO_RESTORE });
-  } else if (info.menuItemId === 'amber-translate-selection') {
+  } else if (info.menuItemId === 'gleaner-selection') {
     sendToTab(tab.id, { type: M.DO_TRANSLATE, selection: info.selectionText || '' });
-  } else if (info.menuItemId === 'amber-translate-input') {
+  } else if (info.menuItemId === 'gleaner-input') {
     sendToTab(tab.id, { type: M.DO_TRANSLATE, editable: true });
-  } else if (info.menuItemId === 'amber-translate-image') {
+  } else if (info.menuItemId === 'gleaner-image') {
     sendToTab(tab.id, { type: 'amber:do-ocr', srcUrl: info.srcUrl || '' });
   }
 });

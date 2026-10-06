@@ -1,5 +1,5 @@
 
-const DB_NAME = 'amber-translate';
+const DB_NAME = 'gleaner';
 const DB_VERSION = 1;
 const STORE = 'translations';
 

@@ -864,7 +864,7 @@ function exportSettings() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'amber-translate-settings.json';
+  a.download = 'gleaner-settings.json';
   a.click();
   setTimeout(function () {
     URL.revokeObjectURL(url);
