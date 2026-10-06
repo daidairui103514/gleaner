@@ -241,6 +241,3 @@ gleaner/
 ## 许可
 
 [MIT](LICENSE) © daidairui103514
-
-本项目与 [KISS Translator](https://github.com/fishjar/kiss-translator) 的视频字幕实现思路有参考，
-但代码完全独立编写。

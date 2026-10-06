@@ -1,5 +1,4 @@
 /* 视频双语字幕
-   参考 KISS Translator 的 BilingualSubtitleManager：
    不去改播放器原生的字幕 DOM（那样会被它的滚动/重建冲掉，或者和原字幕叠成好几行），
    而是「接管渲染」——把原生字幕隐藏掉，在同一位置自己画一层「原文 + 译文」。 */
 (function (root) {
